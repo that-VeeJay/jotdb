@@ -118,3 +118,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .center {
+    @apply flex items-center justify-center;
+  }
+}

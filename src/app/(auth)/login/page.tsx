@@ -13,7 +13,7 @@ import GoogleButton from "../_components/GoogleButton";
 
 export default function LoginPage() {
   return (
-    <div className="relative flex items-center justify-center min-h-screen">
+    <div className="relative center min-h-screen">
       <div className="absolute top-4 right-4">
         <ModeToggle />
       </div>
