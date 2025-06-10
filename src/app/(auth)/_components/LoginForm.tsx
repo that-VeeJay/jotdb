@@ -4,17 +4,16 @@ import { Label, Input, Button } from "@/components/ui";
 import { useActionState } from "react";
 import { login } from "../actions";
 import InputError from "./InputError";
+import AlertToast from "@/components/shared/AlertToast";
 
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, undefined);
 
   return (
     <>
-      <div>
-        {typeof state?.message === "string" && state.message && (
-          <div>{state.message}</div>
-        )}
-      </div>
+      {typeof state?.message === "string" && state.message && (
+        <AlertToast message={state.message} type="error" margin="mb-5" />
+      )}
       <form action={formAction} className="space-y-4">
         <div className="space-y-1">
           <Label htmlFor="email">Email</Label>

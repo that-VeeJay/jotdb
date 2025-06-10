@@ -10,10 +10,7 @@ const LoginSchema = z.object({
     .email({ message: "Please enter a valid email address" })
     .min(1, { message: "Email is required" })
     .trim(),
-  password: z
-    .string()
-    .min(1, { message: "Password is required" })
-    .min(8, { message: "Password must be at lease 8 characters" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
 export async function login(previousState: any, formData: FormData) {
@@ -37,7 +34,7 @@ export async function login(previousState: any, formData: FormData) {
   if (error) {
     return {
       status: "error",
-      message: "Invalid credentials",
+      message: "Invalid credentials.",
     };
   }
 
