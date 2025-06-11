@@ -10,8 +10,18 @@ import GithubButton from "../_components/GithubButton";
 import LoginForm from "../_components/LoginForm";
 import FormDivider from "../_components/FormDivider";
 import GoogleButton from "../_components/GoogleButton";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) redirect("/");
+
   return (
     <div className="relative center min-h-screen">
       <div className="absolute top-4 right-4">
