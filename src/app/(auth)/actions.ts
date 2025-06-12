@@ -13,7 +13,7 @@ const LoginSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
 });
 
-export async function login(previousState: any, formData: FormData) {
+export async function login(previousState: unknown, formData: FormData) {
   const supabase = await createClient();
 
   const parsed = LoginSchema.safeParse({
