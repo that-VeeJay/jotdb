@@ -62,12 +62,13 @@ export async function signup(formData: FormData) {
   redirect("/");
 }
 
-export async function signout() {
+export async function signout(): Promise<void> {
   const supabase = await createClient();
-
   const { error } = await supabase.auth.signOut();
 
-  if (error) return null;
+  if (error) {
+    return;
+  }
 
   redirect("/login");
 }
