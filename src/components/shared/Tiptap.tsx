@@ -19,10 +19,10 @@ export default function Tiptap() {
     },
   });
 
-  return [
-    <div className="flex flex-col">
+  return (
+    <div className="">
       <Menubar editor={editor} />
       <EditorContent editor={editor} />
-    </div>,
-  ];
+    </div>
+  );
 }
