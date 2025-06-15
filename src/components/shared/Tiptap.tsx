@@ -3,8 +3,9 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
+import Menubar from "./Menubar";
 
-const Tiptap = () => {
+export default function Tiptap() {
   const editor = useEditor({
     extensions: [
       Placeholder.configure({ placeholder: "Write something..." }),
@@ -13,14 +14,15 @@ const Tiptap = () => {
     // content: "Hello World",
     editorProps: {
       attributes: {
-        class:
-          "scrollbar-hidden h-160 resize-none border rounded-md bg-neutral-100 dark:bg-neutral-900 p-3 overflow-y-auto",
+        class: "min-h-[156px] border rounded-md py-2 px-3",
       },
     },
   });
 
-  return <EditorContent editor={editor} />;
-};
-
-export default Tiptap;
-
+  return [
+    <div className="flex flex-col">
+      <Menubar editor={editor} />
+      <EditorContent editor={editor} />
+    </div>,
+  ];
+}
