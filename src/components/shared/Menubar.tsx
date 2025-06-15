@@ -1,4 +1,6 @@
-export default function Menubar({ editor }: { editor: any }) {
+import type { Editor } from "@tiptap/react";
+
+export default function Menubar({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
   return (
