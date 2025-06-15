@@ -2,6 +2,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 import { Separator } from "./separator";
+import { Toggle } from "./toggle";
 import {
   Card,
   CardAction,
@@ -26,7 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 
-export { Button, Input, Label, Separator };
+export { Button, Input, Label, Separator, Toggle };
 
 export {
   Card,
