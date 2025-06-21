@@ -7,34 +7,41 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Input,
-  Label,
+  Separator,
 } from "@/components/ui";
+
+import FormField from "../_components/FormField";
+import GoogleButton from "../_components/GoogleButton";
+import GithubButton from "../_components/GithubButton";
 
 export default function LoginPage() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-[23rem] p-6">
       <CardHeader>
-        <CardTitle className="text-3xl">Login</CardTitle>
+        <CardTitle className="text-3xl font-medium">Login</CardTitle>
         <CardDescription>
-          Please provide all necessary information
+          Enter your credentials to access your account.
         </CardDescription>
       </CardHeader>
+      <CardContent className="space-y-3">
+        <GoogleButton />
+        <GithubButton />
+        <div className="mt-3 flex items-center gap-3">
+          <Separator className="flex-1" />
+          <span className="text-xs">or continue with email</span>
+          <Separator className="flex-1" />
+        </div>
+      </CardContent>
       <CardContent>
         <form className="space-y-5">
-          <div>
-            <Label htmlFor="email" className="mb-1">
-              Email
-            </Label>
-            <Input id="email" type="email" name="email" />
-          </div>
+          <FormField id="email" name="email" type="email" label="Email" />
 
-          <div>
-            <Label htmlFor="password" className="mb-1">
-              Password
-            </Label>
-            <Input id="password" type="password" name="password" />
-          </div>
+          <FormField
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+          />
 
           <Button type="submit" className="w-full">
             Login
