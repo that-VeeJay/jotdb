@@ -7,10 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Input,
-  Label,
 } from "@/components/ui";
 import FormField from "../_components/FormField";
+import GoogleButton from "../_components/GoogleButton";
+import GithubButton from "../_components/GithubButton";
 
 export default function LoginPage() {
   return (
@@ -21,6 +21,10 @@ export default function LoginPage() {
           Please provide all necessary information
         </CardDescription>
       </CardHeader>
+      <CardContent className="space-y-3">
+        <GoogleButton />
+        <GithubButton />
+      </CardContent>
       <CardContent>
         <form className="space-y-5">
           <FormField id="email" name="email" type="email" label="Email" />
