@@ -2,23 +2,25 @@ import Link from "next/link";
 import {
   Button,
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui";
+
 import FormField from "../_components/FormField";
 
 export default function RegistrationPage() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-[23rem] p-6">
       <CardHeader>
-        <CardTitle className="text-3xl">Register</CardTitle>
+        <CardTitle className="text-3xl font-medium">Register</CardTitle>
         <CardDescription>
-          Please provide all necessary information
+          Fill out all required information to create your account.
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <form className="space-y-5">
           <FormField

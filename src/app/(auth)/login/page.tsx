@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Separator,
   Button,
   Card,
   CardContent,
@@ -8,18 +7,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Separator,
 } from "@/components/ui";
+
 import FormField from "../_components/FormField";
 import GoogleButton from "../_components/GoogleButton";
 import GithubButton from "../_components/GithubButton";
 
 export default function LoginPage() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-[23rem] p-6">
       <CardHeader>
-        <CardTitle className="text-3xl">Login</CardTitle>
+        <CardTitle className="text-3xl font-medium">Login</CardTitle>
         <CardDescription>
-          Please provide all necessary information
+          Enter your credentials to access your account.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
