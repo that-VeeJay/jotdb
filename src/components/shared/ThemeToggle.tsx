@@ -22,20 +22,20 @@ export function ThemeToggle() {
   if (!isMounted) return null;
 
   return (
-    <div className="flex items-center gap-1 bg-muted  rounded-full w-fit">
+    <div className="bg-muted flex w-fit items-center gap-1 rounded-full">
       {themes.map(({ name, icon: Icon }) => (
         <button
           key={name}
           onClick={() => setTheme(name)}
           className={cn(
-            "p-2 rounded-full transition-colors",
+            "rounded-full p-2 transition-colors",
             theme === name
               ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-accent"
+              : "text-muted-foreground hover:bg-accent",
           )}
           aria-label={`Switch to ${name} theme`}
         >
-          <Icon className="w-4 h-4" />
+          <Icon className="h-4 w-4" />
         </button>
       ))}
     </div>
