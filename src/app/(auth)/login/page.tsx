@@ -10,6 +10,7 @@ import {
   Input,
   Label,
 } from "@/components/ui";
+import FormField from "../_components/FormField";
 
 export default function LoginPage() {
   return (
@@ -22,19 +23,14 @@ export default function LoginPage() {
       </CardHeader>
       <CardContent>
         <form className="space-y-5">
-          <div>
-            <Label htmlFor="email" className="mb-1">
-              Email
-            </Label>
-            <Input id="email" type="email" name="email" />
-          </div>
+          <FormField id="email" name="email" type="email" label="Email" />
 
-          <div>
-            <Label htmlFor="password" className="mb-1">
-              Password
-            </Label>
-            <Input id="password" type="password" name="password" />
-          </div>
+          <FormField
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+          />
 
           <Button type="submit" className="w-full">
             Login
