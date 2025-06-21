@@ -25,7 +25,7 @@ export default function LoginPage() {
       <CardContent className="space-y-3">
         <GoogleButton />
         <GithubButton />
-        <div className="flex gap-3 items-center mt-3">
+        <div className="mt-3 flex items-center gap-3">
           <Separator className="flex-1" />
           <span className="text-xs">or continue with email</span>
           <Separator className="flex-1" />
