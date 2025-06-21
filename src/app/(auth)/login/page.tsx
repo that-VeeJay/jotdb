@@ -13,7 +13,7 @@ import {
 
 export default function LoginPage() {
   return (
-    <Card className="max-w-sm w-full">
+    <Card className="w-full max-w-sm">
       <CardHeader>
         <CardTitle className="text-3xl">Login</CardTitle>
         <CardDescription>

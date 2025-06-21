@@ -6,7 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="relative flex items-center justify-center min-h-screen">
+    <main className="relative flex min-h-screen items-center justify-center">
       <div className="absolute top-3 right-3">
         <ThemeToggle />
       </div>
