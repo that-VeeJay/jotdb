@@ -1,8 +1,6 @@
 import Link from "next/link";
 import {
   Button,
-  Input,
-  Label,
   Card,
   CardHeader,
   CardTitle,
@@ -10,6 +8,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui";
+import FormField from "../_components/FormField";
 
 export default function RegistrationPage() {
   return (
@@ -22,38 +21,27 @@ export default function RegistrationPage() {
       </CardHeader>
       <CardContent>
         <form className="space-y-5">
-          <div>
-            <Label htmlFor="display_name" className="mb-1">
-              Display name
-            </Label>
-            <Input id="display_name" type="text" name="display_name" />
-          </div>
+          <FormField
+            id="display_name"
+            name="display_name"
+            type="text"
+            label="Display name"
+          />
 
-          <div>
-            <Label htmlFor="email" className="mb-1">
-              Email
-            </Label>
-            <Input id="email" type="email" name="email" />
-          </div>
+          <FormField id="email" name="email" type="email" label="Email" />
 
-          <div>
-            <Label htmlFor="password" className="mb-1">
-              Password
-            </Label>
-            <Input id="password" type="password" name="password" />
-          </div>
-
-          <div>
-            <Label htmlFor="confirm_password" className="mb-1">
-              Confirm Password
-            </Label>
-            <Input
-              id="confirm_password"
-              type="password"
-              name="confirm_password"
-            />
-          </div>
-
+          <FormField
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+          />
+          <FormField
+            id="confirm_password"
+            name="confirm_password"
+            type="password"
+            label="Confirm Password"
+          />
           <Button type="submit" className="w-full">
             Create account
           </Button>
