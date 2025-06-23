@@ -1,8 +1,5 @@
 import Link from "next/link";
 import {
-  Button,
-  Label,
-  Input,
   Separator,
   Card,
   CardContent,
@@ -14,6 +11,7 @@ import {
 
 import GithubButton from "../_components/GithubButton";
 import GoogleButton from "../_components/GoogleButton";
+import LoginForm from "../_components/LoginForm";
 
 export default function LoginPage() {
   return (
@@ -36,18 +34,7 @@ export default function LoginPage() {
             <span className="text-xs">Or continue with email</span>
             <Separator className="flex-1" />
           </div>
-          <form className="space-y-5">
-            <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" />
-            </div>
-
-            <Button className="w-full">Login</Button>
-          </form>
+          <LoginForm />
         </CardContent>
         <CardFooter>
           <span>
