@@ -29,7 +29,7 @@ export default function Snackbar({ message, type, margin }: SnackbarProps) {
 
   return (
     <div
-      className={`px-3 py-2 border-2 rounded-lg text-base flex items-center gap-2 ${styles} ${
+      className={`px-3 py-2 border-2 rounded-lg text-base flex items-center gap-3 ${styles} ${
         margin ?? ""
       }`}
     >

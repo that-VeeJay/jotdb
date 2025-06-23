@@ -2,21 +2,20 @@
 
 import { z } from "zod/v4";
 import { RegisterSchema } from "@/lib/schemas";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
-type SignupError = {
-  errors: {
-    formErrors: string[];
-    fieldErrors: Record<string, string[]>;
+type SignupReturns = {
+  type: "error" | "success";
+  message: {
+    formErrors?: string[];
+    fieldErrors?: Record<string, string[]>;
   };
 };
 
 export async function signup(
   previousState: unknown,
   formData: FormData
-): Promise<SignupError> {
+): Promise<SignupReturns> {
   const supabase = await createClient();
 
   const data = {
@@ -28,19 +27,29 @@ export async function signup(
 
   const result = RegisterSchema.safeParse(data);
 
-  if (!result.success) return { errors: z.flattenError(result.error) };
+  if (!result.success)
+    return { type: "error", message: z.flattenError(result.error) };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { email, password, display_name } = result.data;
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        display_name,
+      },
+    },
+  });
 
   if (error) {
     return {
-      errors: {
+      type: "error",
+      message: {
         formErrors: [error.message],
         fieldErrors: {},
       },
     };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  return { type: "success", message: {} };
 }

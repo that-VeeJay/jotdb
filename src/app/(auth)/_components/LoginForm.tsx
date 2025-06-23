@@ -10,14 +10,14 @@ import { login } from "../actions/login";
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(login, undefined);
 
-  const formError = state?.errors.formErrors?.[0];
+  const isAuthError = state?.errors.formErrors?.[0];
   const fieldErrors = state?.errors.fieldErrors;
 
   return (
     <>
-      {formError && (
+      {isAuthError && (
         <Snackbar
-          message="Error logging in. Please try again."
+          message="Account not found. Please make sure your details are correct."
           type="error"
           margin="mb-4"
         />

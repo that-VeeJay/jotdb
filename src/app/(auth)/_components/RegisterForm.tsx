@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui";
 import Spinner from "@/components/icons/Spinner";
 import Snackbar from "@/components/shared/Snackbar";
@@ -13,22 +13,34 @@ export default function RegisterForm() {
   const [state, formAction, isPending] = useActionState(signup, undefined);
   const [formValue, setFormValue] = useState(INITIAL_VALUE);
 
-  const formError = state?.errors.formErrors?.[0];
-  const fieldErrors = state?.errors.fieldErrors;
+  const isSuccess = state?.type === "success";
+  const isError = state?.type === "error";
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    setFormValue({ ...formValue, [field]: e.target.value });
+  const isAuthError = isError ? state.message.formErrors?.[0] : null;
+  const fieldErrors = isError ? state.message.fieldErrors : {};
+
+  useEffect(() => {
+    if (isSuccess) setFormValue(INITIAL_VALUE);
+  }, [isSuccess]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValue((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <>
-      {formError && (
+      {isAuthError && (
         <Snackbar
           message="Account creation failed. Please try again."
           type="error"
+          margin="mb-4"
+        />
+      )}
+      {isSuccess && (
+        <Snackbar
+          message="Account created successfully. Please check your email to verify it."
+          type="success"
           margin="mb-4"
         />
       )}
@@ -39,7 +51,7 @@ export default function RegisterForm() {
           name="display_name"
           type="text"
           value={formValue.display_name}
-          onChange={(e) => handleChange(e, "display_name")}
+          onChange={handleChange}
           error={fieldErrors?.display_name?.[0]}
         />
 
@@ -49,7 +61,7 @@ export default function RegisterForm() {
           name="email"
           type="email"
           value={formValue.email}
-          onChange={(e) => handleChange(e, "email")}
+          onChange={handleChange}
           error={fieldErrors?.email?.[0]}
         />
 
