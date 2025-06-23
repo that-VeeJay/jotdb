@@ -3,6 +3,7 @@ import {
   Button,
   Label,
   Input,
+  Separator,
   Card,
   CardContent,
   CardDescription,
@@ -10,6 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
+
+import GithubButton from "../_components/GithubButton";
+import GoogleButton from "../_components/GoogleButton";
 
 export default function LoginPage() {
   return (
@@ -23,6 +27,15 @@ export default function LoginPage() {
         </CardHeader>
 
         <CardContent>
+          <div className="space-y-3">
+            <GithubButton />
+            <GoogleButton />
+          </div>
+          <div className="flex items-center gap-3 my-6">
+            <Separator className="flex-1" />
+            <span className="text-xs">Or continue with email</span>
+            <Separator className="flex-1" />
+          </div>
           <form className="space-y-3">
             <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
