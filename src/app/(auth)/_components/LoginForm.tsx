@@ -1,21 +1,55 @@
+"use client";
+
+import { useActionState } from "react";
+import { Button } from "@/components/ui";
+import Spinner from "@/components/icons/Spinner";
+import Snackbar from "@/components/shared/Snackbar";
+import FormField from "./FormField";
 import { login } from "../actions/login";
-import { Label, Input, Button } from "@/components/ui";
 
 export default function LoginForm() {
-  return (
-    <form className="space-y-5">
-      <div className="space-y-1">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" />
-      </div>
-      <div className="space-y-1">
-        <Label htmlFor="password">Password</Label>
-        <Input id="password" name="password" type="password" />
-      </div>
+  const [state, formAction, isPending] = useActionState(login, undefined);
 
-      <Button formAction={login} className="w-full">
-        Login
-      </Button>
-    </form>
+  const formError = state?.errors.formErrors?.[0];
+  const fieldErrors = state?.errors.fieldErrors;
+
+  return (
+    <>
+      {formError && (
+        <Snackbar
+          message="Error logging in. Please try again."
+          type="error"
+          margin="mb-4"
+        />
+      )}
+      <form action={formAction} className="space-y-5">
+        <FormField
+          label="Email"
+          id="email"
+          name="email"
+          type="email"
+          error={fieldErrors?.email?.[0]}
+        />
+
+        <FormField
+          label="Password"
+          id="password"
+          name="password"
+          type="password"
+          error={fieldErrors?.password?.[0]}
+        />
+
+        <Button type="submit" disabled={isPending} className="w-full">
+          {isPending ? (
+            <span className="flex items-center gap-2">
+              <Spinner />
+              Logging...
+            </span>
+          ) : (
+            "Login"
+          )}
+        </Button>
+      </form>
+    </>
   );
 }
