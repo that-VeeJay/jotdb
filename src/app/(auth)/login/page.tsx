@@ -22,7 +22,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle className="text-3xl">Login</CardTitle>
           <CardDescription>
-            Please provide all necessary information
+            Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
 
@@ -36,7 +36,7 @@ export default function LoginPage() {
             <span className="text-xs">Or continue with email</span>
             <Separator className="flex-1" />
           </div>
-          <form className="space-y-3">
+          <form className="space-y-5">
             <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" />
