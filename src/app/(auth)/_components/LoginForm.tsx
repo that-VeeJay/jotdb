@@ -1,3 +1,4 @@
+import { login } from "../actions/login";
 import { Label, Input, Button } from "@/components/ui";
 
 export default function LoginForm() {
@@ -12,7 +13,9 @@ export default function LoginForm() {
         <Input id="password" name="password" type="password" />
       </div>
 
-      <Button className="w-full">Login</Button>
+      <Button formAction={login} className="w-full">
+        Login
+      </Button>
     </form>
   );
 }
