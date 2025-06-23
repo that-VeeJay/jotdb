@@ -13,7 +13,7 @@ type SignupReturns = {
 };
 
 export async function signup(
-  previousState: unknown,
+  _previousState: unknown,
   formData: FormData
 ): Promise<SignupReturns> {
   const supabase = await createClient();
@@ -25,12 +25,12 @@ export async function signup(
     confirm_password: formData.get("confirm_password") as string,
   };
 
-  const result = RegisterSchema.safeParse(data);
+  const parsed = RegisterSchema.safeParse(data);
 
-  if (!result.success)
-    return { type: "error", message: z.flattenError(result.error) };
+  if (!parsed.success)
+    return { type: "error", message: z.flattenError(parsed.error) };
 
-  const { email, password, display_name } = result.data;
+  const { email, password, display_name } = parsed.data;
   const { error } = await supabase.auth.signUp({
     email,
     password,
