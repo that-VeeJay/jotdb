@@ -1,43 +1,43 @@
 "use client";
 
-import * as React from "react";
-import { Moon, Sun, Laptop } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Sun, Moon, Laptop } from "lucide-react";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui";
+const themes = [
+  { name: "light", icon: Sun },
+  { name: "dark", icon: Moon },
+  { name: "system", icon: Laptop },
+];
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun />
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon />
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Laptop />
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center gap-1 bg-muted p-1 rounded-full w-fit">
+      {themes.map(({ name, icon: Icon }) => (
+        <button
+          key={name}
+          onClick={() => setTheme(name)}
+          className={cn(
+            "p-2 rounded-full transition-colors",
+            theme === name
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-accent"
+          )}
+          aria-label={`Switch to ${name} theme`}
+        >
+          <Icon className="w-4 h-4" />
+        </button>
+      ))}
+    </div>
   );
 }

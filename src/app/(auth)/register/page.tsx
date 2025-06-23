@@ -17,12 +17,12 @@ export default function RegisterPage() {
       <CardHeader>
         <CardTitle className="text-3xl">Register</CardTitle>
         <CardDescription>
-          Please provide all necessary information
+          Fill out the form to create a new account
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form className="space-y-3">
+        <form className="space-y-5">
           <div className="space-y-1">
             <Label htmlFor="display_name">Display name</Label>
             <Input id="display_name" name="display_name" type="text" />
