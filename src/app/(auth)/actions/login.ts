@@ -14,21 +14,19 @@ type LoginError = {
 };
 
 export async function login(
-  previousState: unknown,
+  _previousState: unknown,
   formData: FormData
-): Promise<LoginError> {
+): Promise<LoginError | void> {
   const supabase = await createClient();
 
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
 
-  const result = LoginSchema.safeParse(data);
+  const parsed = LoginSchema.safeParse({ email, password });
 
-  if (!result.success) return { errors: z.flattenError(result.error) };
+  if (!parsed.success) return { errors: z.flattenError(parsed.error) };
 
-  const { error } = await supabase.auth.signInWithPassword(data);
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
     return {
