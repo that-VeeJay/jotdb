@@ -28,7 +28,7 @@ export function ThemeToggle() {
           key={name}
           onClick={() => setTheme(name)}
           className={cn(
-            "p-2 rounded-full transition-colors",
+            "p-1 rounded-full transition-colors",
             theme === name
               ? "bg-primary text-primary-foreground"
               : "text-muted-foreground hover:bg-accent"
