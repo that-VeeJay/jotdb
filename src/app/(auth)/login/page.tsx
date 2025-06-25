@@ -1,19 +1,18 @@
 import Link from "next/link";
+import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 import {
-  Separator,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  Separator,
 } from "@/components/ui";
 
+import LoginForm from "../_components/LoginForm";
 import GithubButton from "../_components/GithubButton";
 import GoogleButton from "../_components/GoogleButton";
-import LoginForm from "../_components/LoginForm";
-
-import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 
 export default async function LoginPage() {
   await redirectIfAuthenticated();

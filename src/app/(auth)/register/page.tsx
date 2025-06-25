@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 import {
   Card,
   CardContent,
@@ -7,8 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
+
 import RegisterForm from "../_components/RegisterForm";
-import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 
 export default async function RegisterPage() {
   await redirectIfAuthenticated();
