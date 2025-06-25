@@ -8,14 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui";
 import RegisterForm from "../_components/RegisterForm";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 
 export default async function RegisterPage() {
-  const supabase = await createClient();
-
-  const { data } = await supabase.auth.getUser();
-  if (data.user) redirect("/");
+  await redirectIfAuthenticated();
 
   return (
     <Card className="w-full max-w-sm">
