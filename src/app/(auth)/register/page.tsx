@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 import {
   Card,
   CardContent,
@@ -7,9 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
+
 import RegisterForm from "../_components/RegisterForm";
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  await redirectIfAuthenticated();
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>

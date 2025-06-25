@@ -1,7 +1,13 @@
-export default function Home() {
+import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
+import { requireUser } from "@/utils/auth/requireUser";
+
+export default async function Home() {
+  const user = await requireUser();
+
   return (
     <>
-      <div>HOMEPAGE</div>
+      <AppSidebar />
+      <main className="w-full">HOMEPAGE</main>
     </>
   );
 }
