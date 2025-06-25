@@ -1,7 +1,10 @@
+import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
+
 export default function Home() {
   return (
     <>
-      <div>HOMEPAGE</div>
+      <AppSidebar />
+      <main className="w-full">HOMEPAGE</main>
     </>
   );
 }

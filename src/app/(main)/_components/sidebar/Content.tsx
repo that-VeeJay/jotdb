@@ -22,8 +22,6 @@ export default function Content() {
             ) : (
               <>
                 <Item />
-                <Item />
-                <Item />
               </>
             )}
           </SidebarMenu>
