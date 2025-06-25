@@ -1,11 +1,10 @@
-export type User = {
+export interface User {
   id: string;
   name: string;
   email: string;
-};
-
-export type AuthenticatedUserInfo = {
+}
+export interface AuthenticatedUserInfo {
   id: string;
   email: string;
   display_name: string;
-};
+}

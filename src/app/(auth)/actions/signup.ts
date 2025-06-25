@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 import { RegisterSchema } from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 
-type SignupReturns = {
+type SignupResponse = {
   type: "error" | "success";
   message: {
     formErrors?: string[];
@@ -15,7 +15,7 @@ type SignupReturns = {
 export async function signup(
   _previousState: unknown,
   formData: FormData
-): Promise<SignupReturns> {
+): Promise<SignupResponse> {
   const supabase = await createClient();
 
   const data = {

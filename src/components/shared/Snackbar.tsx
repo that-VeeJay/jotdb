@@ -1,10 +1,10 @@
 import { CircleX, Info, Check, AlertTriangle } from "lucide-react";
 
-type SnackbarProps = {
+interface SnackbarProps {
   message: string;
   type: "info" | "success" | "warning" | "error";
   margin?: string;
-};
+}
 
 const iconMap = {
   info: Info,

@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { LoginSchema } from "@/lib/schemas";
 import { createClient } from "@/utils/supabase/server";
 
-type LoginError = {
+type LoginResponse = {
   errors: {
     formErrors: string[];
     fieldErrors: Record<string, string[]>;
@@ -16,7 +16,7 @@ type LoginError = {
 export async function login(
   _previousState: unknown,
   formData: FormData
-): Promise<LoginError | void> {
+): Promise<LoginResponse | void> {
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
