@@ -8,3 +8,9 @@ export interface AuthenticatedUserInfo {
   email: string;
   display_name: string;
 }
+
+export interface Note {
+  user_id: string;
+  title: string;
+  content: string;
+}

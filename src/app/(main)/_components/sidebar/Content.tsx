@@ -1,3 +1,5 @@
+"use client";
+
 import Snackbar from "@/components/shared/Snackbar";
 import {
   SidebarContent,
@@ -7,9 +9,10 @@ import {
   SidebarMenu,
 } from "@/components/ui";
 import Item from "../note/Item";
+import { useNoteContext } from "@/context/NoteContext";
 
 export default function Content() {
-  const notes = ["foo"];
+  const { notes } = useNoteContext();
 
   return (
     <SidebarContent>
