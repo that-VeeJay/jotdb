@@ -43,7 +43,7 @@ export default function LoginForm() {
           {isPending ? (
             <span className="flex items-center gap-2">
               <Spinner />
-              Logging...
+              Logging in...
             </span>
           ) : (
             "Login"

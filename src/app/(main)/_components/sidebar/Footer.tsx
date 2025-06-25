@@ -1,17 +1,21 @@
 import { ChevronUp, User2 } from "lucide-react";
+
+import { requireUser } from "@/utils/auth/requireUser";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
 } from "@/components/ui";
 
-export default function Footer() {
+export default async function Footer() {
+  const { display_name, email } = await requireUser();
+
   return (
     <SidebarFooter>
       <SidebarMenu className="space-y-2">
@@ -23,7 +27,18 @@ export default function Footer() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton>
-                <User2 /> Username
+                <div className="flex gap-2 items-center">
+                  <User2 />
+                  <div className="flex flex-col">
+                    <span className="text-xs">
+                      Signed in as:{" "}
+                      <span className="text-sm font-semibold">
+                        {display_name}
+                      </span>
+                    </span>
+                    <span className="text-xs text-stone-400">{email}</span>
+                  </div>
+                </div>
                 <ChevronUp className="ml-auto" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
