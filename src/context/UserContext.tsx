@@ -16,30 +16,37 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+const fetchAuthenticatedUser = async (
+  supabase: ReturnType<typeof createClient>
+): Promise<User | null> => {
+  const { data, error } = await supabase.auth.getUser();
+
+  if (data?.user) {
+    const { id, email, user_metadata } = data.user;
+
+    return {
+      id,
+      email: email || "",
+      name: user_metadata?.display_name || "",
+    };
+  }
+
+  console.warn("No user found:", error?.message);
+  return null;
+};
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   const supabase = createClient();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-
-      if (data?.user) {
-        const { id, email, user_metadata } = data.user;
-
-        setUser({
-          id,
-          email: email || "",
-          name: user_metadata?.display_name || "",
-        });
-      } else {
-        console.warn("No user found:", error?.message);
-        setUser(null);
-      }
+    const loadUser = async () => {
+      const currentUser = await fetchAuthenticatedUser(supabase);
+      setUser(currentUser);
     };
-    getUser();
-  }, []);
+    loadUser();
+  }, [supabase]);
 
   return (
     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
