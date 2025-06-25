@@ -1,19 +1,22 @@
 import Link from "next/link";
+import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
 import {
-  Separator,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  Separator,
 } from "@/components/ui";
 
+import LoginForm from "../_components/LoginForm";
 import GithubButton from "../_components/GithubButton";
 import GoogleButton from "../_components/GoogleButton";
-import LoginForm from "../_components/LoginForm";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  await redirectIfAuthenticated();
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-full max-w-sm">

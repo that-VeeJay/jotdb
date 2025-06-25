@@ -35,7 +35,11 @@ export default function Footer() {
                 <span>Account</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <span>Sign out</span>
+                <form action="/api/auth/signout" method="post">
+                  <button className="button block" type="submit">
+                    Sign out
+                  </button>
+                </form>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
