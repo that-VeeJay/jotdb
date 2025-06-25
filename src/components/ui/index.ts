@@ -2,6 +2,8 @@ export { Button } from "./button";
 export { Input } from "./input";
 export { Label } from "./label";
 export { Separator } from "./separator";
+export { Textarea } from "./textarea";
+export { ScrollArea, ScrollBar } from "./scroll-area";
 
 export {
   Card,
