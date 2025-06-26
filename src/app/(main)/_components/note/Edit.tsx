@@ -1,11 +1,9 @@
-"use client";
-
 import { useState } from "react";
 import { Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
-import { Button, Input, Textarea } from "@/components/ui";
-import { useNoteContext } from "@/context/NoteContext";
 import { saveNote } from "@/lib/supabase/notes";
+import { useNoteContext } from "@/context/NoteContext";
+import { Button, Input, Textarea } from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
   const { setIsEditing, setNotes, setActiveNote } = useNoteContext();

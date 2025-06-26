@@ -1,7 +1,4 @@
-"use client";
-
 import { MoreHorizontal, Trash } from "lucide-react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,11 +11,8 @@ import {
 import { useNoteContext } from "@/context/NoteContext";
 import { type Note } from "@/lib/types";
 import { deleteNote } from "@/lib/supabase/notes";
-interface NoteProps {
-  note: Note;
-}
 
-export default function Tile({ note }: NoteProps) {
+export default function Tile({ note }: { note: Note }) {
   const { setActiveNote, setIsEditing, setNotes, notes, activeNote } =
     useNoteContext();
   const isActive = activeNote?.id === note.id;
