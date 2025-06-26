@@ -18,7 +18,7 @@ export default function View({ note }: { note: Note }) {
   const editNote = () => setIsEditing(true);
 
   return (
-    <Card className="bg-transparent border-none">
+    <Card className="bg-transparent border-none w-full">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
@@ -40,7 +40,7 @@ export default function View({ note }: { note: Note }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[calc(100vh-11rem)] ">
+        <ScrollArea className="h-[calc(100vh-11rem)]">
           <p>{note.content}</p>
         </ScrollArea>
       </CardContent>

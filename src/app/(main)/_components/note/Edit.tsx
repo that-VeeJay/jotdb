@@ -21,7 +21,7 @@ export default function Edit({ note }: { note: Note }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-2 w-full">
       <Input
         id="title"
         name="title"

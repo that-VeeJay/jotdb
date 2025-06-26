@@ -5,6 +5,7 @@ export { Separator } from "./separator";
 export { Textarea } from "./textarea";
 export { ScrollArea, ScrollBar } from "./scroll-area";
 export { Toaster } from "./sonner";
+export { ShortcutKey } from "./shortcut-key";
 
 export {
   Card,
