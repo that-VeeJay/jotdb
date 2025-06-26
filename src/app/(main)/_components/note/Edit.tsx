@@ -38,7 +38,7 @@ export default function Edit({ note }: { note: Note }) {
       prevNotes.map((n) => (n.id === note.id ? (data as Note) : n))
     );
 
-    setActiveNote(data as Note); 
+    setActiveNote(data as Note);
     setIsEditing(false);
   };
 

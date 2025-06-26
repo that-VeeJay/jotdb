@@ -18,7 +18,7 @@ export default function NewNoteBtn() {
 
     const { data, error } = await supabase
       .from("notes")
-      .insert({ user_id: user.id, title: "New note", content: "" })
+      .insert({ user_id: user.id, title: "", content: "" })
       .select()
       .single();
 

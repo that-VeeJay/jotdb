@@ -44,14 +44,14 @@ export default function Tile({ note }: NoteProps) {
       console.error(error);
       return;
     }
-
+    setActiveNote(null);
     setNotes(notes.filter((n) => n.id !== note.id));
   };
 
   return (
     <SidebarMenuItem onClick={selectNote}>
       <SidebarMenuButton className={isActive ? "bg-stone-800" : ""}>
-        <span>{note.title}</span>
+        <span>{note.title || "New note"}</span>
       </SidebarMenuButton>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
