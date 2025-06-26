@@ -9,10 +9,8 @@ export default async function Home() {
     <>
       <AppSidebar />
       <main className="w-full">
-        <div className="m-2">
-          <div className="max-w-5xl mx-auto">
-            <MainScreen />
-          </div>
+        <div className="max-w-5xl mx-auto min-h-screen flex items-center justify-center">
+          <MainScreen />
         </div>
       </main>
     </>

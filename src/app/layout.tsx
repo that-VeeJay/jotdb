@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/provider/theme-provider";
 import { Poppins } from "next/font/google";
 import { UserProvider } from "@/context/UserContext";
+import { Toaster } from "@/components/ui";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -29,7 +30,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <UserProvider>{children} </UserProvider>
+          <UserProvider>
+            {children}
+            <Toaster />
+          </UserProvider>
         </ThemeProvider>
       </body>
     </html>

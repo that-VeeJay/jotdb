@@ -4,6 +4,8 @@ export { Label } from "./label";
 export { Separator } from "./separator";
 export { Textarea } from "./textarea";
 export { ScrollArea, ScrollBar } from "./scroll-area";
+export { Toaster } from "./sonner";
+export { ShortcutKey } from "./shortcut-key";
 
 export {
   Card,
@@ -61,3 +63,17 @@ export {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
+
+export {
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "./alert-dialog";

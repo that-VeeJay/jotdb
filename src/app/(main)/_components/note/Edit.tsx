@@ -1,58 +1,38 @@
-"use client";
-
 import { useState } from "react";
 import { Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
-import { Button, Input, Textarea } from "@/components/ui";
+import Spinner from "@/components/icons/Spinner";
+import { useSaveNote } from "@/hooks/useSaveNote";
 import { useNoteContext } from "@/context/NoteContext";
-import { createClient } from "@/utils/supabase/client";
+import { Button, Input, Textarea } from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
-  const { setIsEditing, setNotes, setActiveNote } = useNoteContext();
-
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
 
-  const supabase = createClient();
+  const { isSaving, saveNoteHandler } = useSaveNote(note, title, content);
+  const { setIsEditing } = useNoteContext();
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  const handleCancel = () => setIsEditing(false);
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const { data, error } = await supabase
-      .from("notes")
-      .update({ title, content })
-      .eq("id", note.id)
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Error updating note:", error);
-      return;
-    }
-
-    setNotes((prevNotes) =>
-      prevNotes.map((n) => (n.id === note.id ? (data as Note) : n))
-    );
-
-    setActiveNote(data as Note); 
-    setIsEditing(false);
+    saveNoteHandler();
   };
 
   return (
-    <form onSubmit={handleSave} className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-2 w-full">
       <Input
         id="title"
         name="title"
+        placeholder="Enter a title..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <Textarea
         id="content"
         name="content"
+        placeholder="Jot down your thoughts..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="h-[calc(100vh-7rem)] resize-none"
@@ -67,9 +47,18 @@ export default function Edit({ note }: { note: Note }) {
           <X />
           cancel
         </Button>
-        <Button type="submit" size="sm">
-          <Save />
-          Save
+        <Button disabled={isSaving} type="submit" size="sm">
+          {isSaving ? (
+            <div className="flex items-center gap-2">
+              <Spinner />
+              Saving...
+            </div>
+          ) : (
+            <>
+              <Save />
+              Save
+            </>
+          )}
         </Button>
       </div>
     </form>
