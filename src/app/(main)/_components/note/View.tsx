@@ -23,7 +23,7 @@ export default function View({ note }: { note: Note }) {
         <CardTitle>
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-lg">{note.title}</span>
+              <span className="text-lg">{note.title || "Untitled note"}</span>
               <CardDescription className="text-xs font-thin">
                 {formatDate(note.created_at)}
               </CardDescription>

@@ -11,13 +11,24 @@ export default function Edit({ note }: { note: Note }) {
   const [content, setContent] = useState(note.content);
 
   const { isSaving, saveNoteHandler } = useSaveNote(note, title, content);
-  const { setIsEditing } = useNoteContext();
+  const { setIsEditing, setNotes, activeNote, notes } = useNoteContext();
 
   const handleCancel = () => setIsEditing(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     saveNoteHandler();
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    if (activeNote) {
+      setNotes(
+        notes.map((n) =>
+          n.id === activeNote.id ? { ...n, title: e.target.value } : n
+        )
+      );
+    }
   };
 
   return (
@@ -27,7 +38,7 @@ export default function Edit({ note }: { note: Note }) {
         name="title"
         placeholder="Enter a title..."
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={handleTitleChange}
       />
       <Textarea
         id="content"

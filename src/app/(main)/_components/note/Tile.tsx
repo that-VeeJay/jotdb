@@ -41,7 +41,7 @@ export default function Tile({ note }: { note: Note }) {
             isActive && "dark:bg-stone-800 bg-stone-200"
           )}
         >
-          <span>{note.title || "New note"}</span>
+          <span>{note.title || "Untitled note"}</span>
         </SidebarMenuButton>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
