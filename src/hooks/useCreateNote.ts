@@ -19,6 +19,7 @@ export function useCreateNote() {
 
       if (error || !data) {
         toast.error("Failed to create new note. Please try again.");
+        setIsCreating(false);
         return;
       }
 

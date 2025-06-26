@@ -1,40 +1,27 @@
 import { useState } from "react";
 import { Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
-import { saveNote } from "@/lib/supabase/notes";
+import Spinner from "@/components/icons/Spinner";
+import { useSaveNote } from "@/hooks/useSaveNote";
 import { useNoteContext } from "@/context/NoteContext";
 import { Button, Input, Textarea } from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
-  const { setIsEditing, setNotes, setActiveNote } = useNoteContext();
-
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  const { isSaving, saveNoteHandler } = useSaveNote(note, title, content);
+  const { setIsEditing } = useNoteContext();
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleCancel = () => setIsEditing(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const { data, error } = await saveNote(title, content, note.id);
-
-    if (error) {
-      console.error("Error updating note:", error);
-      return;
-    }
-
-    setNotes((prevNotes) =>
-      prevNotes.map((n) => (n.id === note.id ? (data as Note) : n))
-    );
-
-    setActiveNote(data as Note);
-    setIsEditing(false);
+    saveNoteHandler();
   };
 
   return (
-    <form onSubmit={handleSave} className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-2">
       <Input
         id="title"
         name="title"
@@ -60,9 +47,18 @@ export default function Edit({ note }: { note: Note }) {
           <X />
           cancel
         </Button>
-        <Button type="submit" size="sm">
-          <Save />
-          Save
+        <Button disabled={isSaving} type="submit" size="sm">
+          {isSaving ? (
+            <div className="flex items-center gap-2">
+              <Spinner />
+              Saving...
+            </div>
+          ) : (
+            <>
+              <Save />
+              Save
+            </>
+          )}
         </Button>
       </div>
     </form>
