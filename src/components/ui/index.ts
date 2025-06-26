@@ -8,6 +8,13 @@ export { Toaster } from "./sonner";
 export { ShortcutKey } from "./shortcut-key";
 
 export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "./tooltip";
+
+export {
   Card,
   CardAction,
   CardContent,

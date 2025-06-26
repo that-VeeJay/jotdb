@@ -1,34 +1,39 @@
-import { useState } from "react";
-import { Save, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Save, X, FileWarning } from "lucide-react";
 import { type Note } from "@/lib/types";
 import Spinner from "@/components/icons/Spinner";
 import { useSaveNote } from "@/hooks/useSaveNote";
 import { useNoteContext } from "@/context/NoteContext";
 import { Button, Input, Textarea } from "@/components/ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
+  const [isDirty, setIsDirty] = useState(false);
 
   const { isSaving, saveNoteHandler } = useSaveNote(note, title, content);
-  const { setIsEditing, setNotes, activeNote, notes } = useNoteContext();
+  const { setIsEditing, setActiveNote } = useNoteContext();
 
-  const handleCancel = () => setIsEditing(false);
+  useEffect(() => {
+    const normalize = (str: string) => str.trim().replace(/\s+/g, " ");
+
+    const isSame =
+      normalize(title) === normalize(note.title) &&
+      normalize(content) === normalize(note.content);
+
+    setIsDirty(!isSame);
+  }, [title, content, note]);
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setActiveNote(note);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     saveNoteHandler();
-  };
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-    if (activeNote) {
-      setNotes(
-        notes.map((n) =>
-          n.id === activeNote.id ? { ...n, title: e.target.value } : n
-        )
-      );
-    }
+    setIsDirty(false);
   };
 
   return (
@@ -38,7 +43,7 @@ export default function Edit({ note }: { note: Note }) {
         name="title"
         placeholder="Enter a title..."
         value={title}
-        onChange={handleTitleChange}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <Textarea
         id="content"
@@ -48,7 +53,19 @@ export default function Edit({ note }: { note: Note }) {
         onChange={(e) => setContent(e.target.value)}
         className="h-[calc(100vh-7rem)] resize-none"
       />
-      <div className="flex justify-end gap-3">
+
+      <div className="flex justify-end gap-3 items-center">
+        {isDirty && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <FileWarning size={18} stroke="red" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>You have unsaved changes.</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
         <Button
           type="button"
           onClick={handleCancel}
@@ -58,19 +75,21 @@ export default function Edit({ note }: { note: Note }) {
           <X />
           cancel
         </Button>
-        <Button disabled={isSaving} type="submit" size="sm">
-          {isSaving ? (
-            <div className="flex items-center gap-2">
-              <Spinner />
-              Saving...
-            </div>
-          ) : (
-            <>
-              <Save />
-              Save
-            </>
-          )}
-        </Button>
+        <div className="relative">
+          <Button disabled={isSaving} type="submit" size="sm">
+            {isSaving ? (
+              <div className="flex items-center gap-2">
+                <Spinner />
+                Saving...
+              </div>
+            ) : (
+              <>
+                <Save />
+                Save
+              </>
+            )}
+          </Button>
+        </div>
       </div>
     </form>
   );
