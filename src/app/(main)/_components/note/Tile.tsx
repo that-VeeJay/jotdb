@@ -1,4 +1,5 @@
-import { MoreHorizontal, Trash } from "lucide-react";
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,13 +9,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui";
-import { useNoteContext } from "@/context/NoteContext";
+import { useState } from "react";
+import { MoreHorizontal, Trash } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { type Note } from "@/lib/types";
-import { deleteNote } from "@/lib/supabase/notes";
+import { useNoteContext } from "@/context/NoteContext";
+import DeleteNoteDialog from "../ui/DeleteNoteDialog";
 
 export default function Tile({ note }: { note: Note }) {
-  const { setActiveNote, setIsEditing, setNotes, notes, activeNote } =
-    useNoteContext();
+  const { setActiveNote, setIsEditing, activeNote } = useNoteContext();
+  const [open, setOpen] = useState(false);
+
   const isActive = activeNote?.id === note.id;
 
   const selectNote = () => {
@@ -22,42 +27,41 @@ export default function Tile({ note }: { note: Note }) {
     setIsEditing(false);
   };
 
-  const handleDelete = async (e: React.MouseEvent) => {
+  const deleteConfirmation = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const confirm = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
-
-    if (!confirm) return;
-
-    const { error } = await deleteNote(note.id);
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-    setActiveNote(null);
-    setNotes(notes.filter((n) => n.id !== note.id));
+    setOpen(true);
   };
 
   return (
-    <SidebarMenuItem onClick={selectNote}>
-      <SidebarMenuButton className={isActive ? "bg-stone-800" : ""}>
-        <span>{note.title || "New note"}</span>
-      </SidebarMenuButton>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <SidebarMenuAction>
-            <MoreHorizontal />
-          </SidebarMenuAction>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" align="start">
-          <DropdownMenuItem onClick={handleDelete}>
-            <Trash />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </SidebarMenuItem>
+    <>
+      <SidebarMenuItem onClick={selectNote}>
+        <SidebarMenuButton
+          className={cn(
+            "hover:bg-stone-200 dark:hover:bg-stone-800",
+            isActive && "dark:bg-stone-800 bg-stone-200"
+          )}
+        >
+          <span>{note.title || "New note"}</span>
+        </SidebarMenuButton>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuAction>
+              <MoreHorizontal />
+            </SidebarMenuAction>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="right" align="start">
+            <DropdownMenuItem
+              onClick={deleteConfirmation}
+              className="text-destructive hover:text-destructive focus:text-destructive"
+            >
+              <Trash className="text-destructive" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+
+      <DeleteNoteDialog open={open} onOpenChange={setOpen} noteId={note.id} />
+    </>
   );
 }
