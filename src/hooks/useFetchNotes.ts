@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { type Note } from "@/lib/types";
+import { getNotes } from "@/lib/supabase/notes";
 
 export function useFetchNotes(
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>
@@ -17,11 +18,7 @@ export function useFetchNotes(
         return;
       }
 
-      const { data: notesData, error: notesError } = await supabase
-        .from("notes")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+      const { data: notesData, error: notesError } = await getNotes(user.id);
 
       if (notesError) {
         console.error("Failed to get notes: ", notesError?.message);

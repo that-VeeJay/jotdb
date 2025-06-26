@@ -13,8 +13,7 @@ import {
 } from "@/components/ui";
 import { useNoteContext } from "@/context/NoteContext";
 import { type Note } from "@/lib/types";
-import { createClient } from "@/utils/supabase/client";
-
+import { deleteNote } from "@/lib/supabase/notes";
 interface NoteProps {
   note: Note;
 }
@@ -23,7 +22,6 @@ export default function Tile({ note }: NoteProps) {
   const { setActiveNote, setIsEditing, setNotes, notes, activeNote } =
     useNoteContext();
   const isActive = activeNote?.id === note.id;
-  const supabase = createClient();
 
   const selectNote = () => {
     setActiveNote(note);
@@ -38,7 +36,7 @@ export default function Tile({ note }: NoteProps) {
 
     if (!confirm) return;
 
-    const { error } = await supabase.from("notes").delete().eq("id", note.id);
+    const { error } = await deleteNote(note.id);
 
     if (error) {
       console.error(error);

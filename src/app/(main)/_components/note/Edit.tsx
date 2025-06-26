@@ -5,15 +5,13 @@ import { Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
 import { Button, Input, Textarea } from "@/components/ui";
 import { useNoteContext } from "@/context/NoteContext";
-import { createClient } from "@/utils/supabase/client";
+import { saveNote } from "@/lib/supabase/notes";
 
 export default function Edit({ note }: { note: Note }) {
   const { setIsEditing, setNotes, setActiveNote } = useNoteContext();
 
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
-
-  const supabase = createClient();
 
   const handleCancel = () => {
     setIsEditing(false);
@@ -22,12 +20,7 @@ export default function Edit({ note }: { note: Note }) {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { data, error } = await supabase
-      .from("notes")
-      .update({ title, content })
-      .eq("id", note.id)
-      .select()
-      .single();
+    const { data, error } = await saveNote(title, content, note.id);
 
     if (error) {
       console.error("Error updating note:", error);
@@ -47,12 +40,14 @@ export default function Edit({ note }: { note: Note }) {
       <Input
         id="title"
         name="title"
+        placeholder="Enter a title..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <Textarea
         id="content"
         name="content"
+        placeholder="Jot down your thoughts..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="h-[calc(100vh-7rem)] resize-none"
