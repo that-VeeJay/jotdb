@@ -1,10 +1,19 @@
-import { Separator, Sidebar } from "@/components/ui";
+import {
+  Separator,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+} from "@/components/ui";
 
 import Toggle from "./sidebar/Toggle";
-import Header from "./sidebar/Header";
+import NewNoteBtn from "./sidebar/NewNoteBtn";
 import TopBar from "./sidebar/TopBar";
 import Footer from "./sidebar/Footer";
-import Content from "./sidebar/Content";
+import List from "./note/List";
 
 export function AppSidebar() {
   return (
@@ -12,9 +21,20 @@ export function AppSidebar() {
       <Toggle />
       <Sidebar variant="floating">
         <TopBar />
-        <Header />
+        <SidebarHeader>
+          <NewNoteBtn />
+        </SidebarHeader>
         <Separator className="mt-2" />
-        <Content />
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>My Notes</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <List />
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
         <Separator className="mb-2" />
         <Footer />
       </Sidebar>

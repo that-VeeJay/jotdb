@@ -4,7 +4,7 @@ import { NoteProvider } from "@/context/NoteContext";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <NoteProvider>
-      <SidebarProvider>{children}</SidebarProvider>;
+      <SidebarProvider>{children}</SidebarProvider>
     </NoteProvider>
   );
 }

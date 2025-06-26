@@ -1,37 +1,48 @@
+"use client";
+
 import { Pencil } from "lucide-react";
+import { type Note } from "@/lib/types";
 import {
   Button,
-  ScrollArea,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  ScrollArea,
 } from "@/components/ui";
+import { useNoteContext } from "@/context/NoteContext";
 
-export default function View() {
+export default function View({ note }: { note: Note }) {
+  const { setIsEditing } = useNoteContext();
+
+  const editNote = () => {
+    setIsEditing(true);
+  };
+
   return (
     <Card className="bg-transparent border-none">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
-            <span>Note Title</span>
-            <Button size="icon" variant="outline">
+            <span>{note.title}</span>
+            <Button
+              type="button"
+              onClick={editNote}
+              size="icon"
+              variant="outline"
+            >
               <Pencil />
             </Button>
           </div>
         </CardTitle>
-        <CardDescription className="text-xs">June 26, 2025</CardDescription>
+        <CardDescription className="text-xs">
+          {note.created_at.toLocaleString()}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[calc(100vh-8rem)] ">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Voluptatibus voluptatum quos officiis nostrum numquam laboriosam
-            molestiae voluptas nam quod ipsam? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Mollitia dolorem sequi fugit repellat
-            ab.
-          </p>
+        <ScrollArea className="h-[calc(100vh-9.5rem)] ">
+          <p>{note.content}</p>
         </ScrollArea>
       </CardContent>
     </Card>

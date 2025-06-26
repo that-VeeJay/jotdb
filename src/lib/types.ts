@@ -8,9 +8,18 @@ export interface AuthenticatedUserInfo {
   email: string;
   display_name: string;
 }
-
 export interface Note {
   user_id: string;
+  id: string;
   title: string;
   content: string;
+  created_at: Date;
+}
+export interface NoteContextType {
+  notes: Note[];
+  setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  activeNote: Note | null;
+  setActiveNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
