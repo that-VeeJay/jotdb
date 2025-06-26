@@ -1,5 +1,7 @@
 import { Pencil } from "lucide-react";
 import { type Note } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
+import { useNoteContext } from "@/context/NoteContext";
 import {
   Button,
   Card,
@@ -9,21 +11,23 @@ import {
   CardTitle,
   ScrollArea,
 } from "@/components/ui";
-import { useNoteContext } from "@/context/NoteContext";
 
 export default function View({ note }: { note: Note }) {
   const { setIsEditing } = useNoteContext();
 
-  const editNote = () => {
-    setIsEditing(true);
-  };
+  const editNote = () => setIsEditing(true);
 
   return (
     <Card className="bg-transparent border-none">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center justify-between">
-            <span>{note.title}</span>
+            <div>
+              <span className="text-lg">{note.title}</span>
+              <CardDescription className="text-xs font-thin">
+                {formatDate(note.created_at)}
+              </CardDescription>
+            </div>
             <Button
               type="button"
               onClick={editNote}
@@ -34,12 +38,9 @@ export default function View({ note }: { note: Note }) {
             </Button>
           </div>
         </CardTitle>
-        <CardDescription className="text-xs">
-          {note.created_at.toLocaleString()}
-        </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[calc(100vh-9.5rem)] ">
+        <ScrollArea className="h-[calc(100vh-11rem)] ">
           <p>{note.content}</p>
         </ScrollArea>
       </CardContent>
