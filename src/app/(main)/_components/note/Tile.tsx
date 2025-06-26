@@ -20,7 +20,9 @@ interface NoteProps {
 }
 
 export default function Tile({ note }: NoteProps) {
-  const { setActiveNote, setIsEditing, setNotes, notes } = useNoteContext();
+  const { setActiveNote, setIsEditing, setNotes, notes, activeNote } =
+    useNoteContext();
+  const isActive = activeNote?.id === note.id;
   const supabase = createClient();
 
   const selectNote = () => {
@@ -48,7 +50,7 @@ export default function Tile({ note }: NoteProps) {
 
   return (
     <SidebarMenuItem onClick={selectNote}>
-      <SidebarMenuButton>
+      <SidebarMenuButton className={isActive ? "bg-stone-800" : ""}>
         <span>{note.title}</span>
       </SidebarMenuButton>
       <DropdownMenu>
