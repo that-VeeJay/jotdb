@@ -45,8 +45,12 @@ export default function RichTextEditor({
     content,
     editorProps: {
       attributes: {
-        class:
-          "prose prose-invert w-full h-[calc(100vh-10rem)] p-4 outline-none bg-stone-900 rounded-lg border border-stone-800 overflow-auto",
+        class: [
+          "prose prose-invert",
+          "w-full h-[calc(100vh-10rem)] p-2 md:p-4",
+          "outline-none bg-stone-900 rounded-lg border border-stone-800",
+          "overflow-auto scrollbar-thin scrollbar-thumb-stone-700 scrollbar-track-transparent",
+        ].join(" "),
       },
     },
     onUpdate: ({ editor }) => {

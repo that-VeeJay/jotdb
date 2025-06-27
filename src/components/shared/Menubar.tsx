@@ -1,5 +1,6 @@
 import { Toggle } from "@/components/ui";
 import { Editor } from "@tiptap/react";
+import { ScrollArea, ScrollBar } from "@/components/ui";
 import {
   AlignCenter,
   AlignLeft,
@@ -88,7 +89,7 @@ export default function Menubar({ editor }: { editor: Editor }) {
   ];
 
   return (
-    <div className="border rounded-md space-x-2 z-50 p-1">
+    <ScrollArea className="w-full rounded-md border whitespace-nowrap p-1">
       {Options.map((option, index) => (
         <Toggle
           key={index}
@@ -98,6 +99,7 @@ export default function Menubar({ editor }: { editor: Editor }) {
           {option.icon}
         </Toggle>
       ))}
-    </div>
+      <ScrollBar orientation="horizontal" className="h-2" />
+    </ScrollArea>
   );
 }
