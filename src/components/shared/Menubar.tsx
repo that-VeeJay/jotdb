@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Toggle } from "@/components/ui";
 import { Editor } from "@tiptap/react";
 import { ScrollArea, ScrollBar } from "@/components/ui";
@@ -17,7 +18,7 @@ import {
   Strikethrough,
 } from "lucide-react";
 
-export default function Menubar({ editor }: { editor: Editor }) {
+function Menubar({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
   const Options = [
@@ -103,3 +104,5 @@ export default function Menubar({ editor }: { editor: Editor }) {
     </ScrollArea>
   );
 }
+
+export default memo(Menubar);
