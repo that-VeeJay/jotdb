@@ -1,4 +1,4 @@
-import RichTextEditor from "@/components/shared/RichTextEditor";
+import RichTextEditor from "@/app/(main)/_components/ui/RichTextEditor";
 import { useEffect, useState } from "react";
 import { FileWarning, Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";

@@ -7,6 +7,7 @@ export { Toaster } from "./sonner";
 export { Toggle } from "./toggle";
 export { ShortcutKey } from "./shortcut-key";
 export { ScrollArea, ScrollBar } from "./scroll-area";
+export { VerticalSeparator } from "./vertical-separator";
 
 export {
   Tooltip,
