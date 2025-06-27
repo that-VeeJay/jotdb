@@ -44,63 +44,55 @@ export default function Edit({ note }: { note: Note }) {
   };
 
   return (
-    <RichTextEditor />
-    // <form onSubmit={handleSubmit} className="space-y-2 w-full">
-    //   <Input
-    //     id="title"
-    //     name="title"
-    //     placeholder="Enter a title..."
-    //     value={title}
-    //     onChange={(e) => setTitle(e.target.value)}
-    //   />
-    //   <Textarea
-    //     id="content"
-    //     name="content"
-    //     placeholder="Jot down your thoughts..."
-    //     value={content}
-    //     onChange={(e) => setContent(e.target.value)}
-    //     className="h-[calc(100vh-7rem)] resize-none"
-    //   />
+    <form onSubmit={handleSubmit} className="space-y-2 w-full">
+      <Input
+        id="title"
+        name="title"
+        placeholder="Enter a title..."
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <RichTextEditor content={content} onChange={setContent} />
 
-    //   <div className="flex justify-end gap-3 items-center">
-    //     {isDirty && (
-    //       <Tooltip>
-    //         <TooltipTrigger asChild>
-    //           <span aria-label="Unsaved changes">
-    //             <FileWarning size={18} stroke="red" />
-    //           </span>
-    //         </TooltipTrigger>
-    //         <TooltipContent>
-    //           <p>You have unsaved changes.</p>
-    //         </TooltipContent>
-    //       </Tooltip>
-    //     )}
+      <div className="flex justify-end gap-3 items-center">
+        {isDirty && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span aria-label="Unsaved changes">
+                <FileWarning size={18} stroke="red" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>You have unsaved changes.</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
 
-    //     <Button
-    //       type="button"
-    //       onClick={handleCancel}
-    //       variant="outline"
-    //       size="sm"
-    //     >
-    //       <X />
-    //       cancel
-    //     </Button>
-    //     <div className="relative">
-    //       <Button disabled={isSaving} type="submit" size="sm">
-    //         {isSaving ? (
-    //           <div className="flex items-center gap-2">
-    //             <Spinner />
-    //             Saving...
-    //           </div>
-    //         ) : (
-    //           <>
-    //             <Save />
-    //             Save
-    //           </>
-    //         )}
-    //       </Button>
-    //     </div>
-    //   </div>
-    // </form>
+        <Button
+          type="button"
+          onClick={handleCancel}
+          variant="outline"
+          size="sm"
+        >
+          <X />
+          cancel
+        </Button>
+        <div className="relative">
+          <Button disabled={isSaving} type="submit" size="sm">
+            {isSaving ? (
+              <div className="flex items-center gap-2">
+                <Spinner />
+                Saving...
+              </div>
+            ) : (
+              <>
+                <Save />
+                Save
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+    </form>
   );
 }

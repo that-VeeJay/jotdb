@@ -4,7 +4,15 @@ import Highlight from "@tiptap/extension-highlight";
 import { EditorContent, useEditor } from "@tiptap/react";
 import Menubar from "./Menubar";
 
-export default function RichTextEditor() {
+interface RichTextEditorProps {
+  content: string;
+  onChange: (html: string) => void;
+}
+
+export default function RichTextEditor({
+  content,
+  onChange,
+}: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -34,24 +42,22 @@ export default function RichTextEditor() {
         },
       }),
     ],
-    content: "",
+    content,
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert w-full h-full p-4 outline-none focus:outline-none",
+          "prose prose-invert w-full h-[calc(100vh-10rem)] p-4 outline-none bg-stone-900 rounded-lg border border-stone-800 overflow-auto",
       },
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
+      onChange(editor.getHTML());
     },
   });
 
   return (
-    <div>
+    <>
       <Menubar editor={editor!} />
-      <div className="w-full h-full overflow-auto bg-stone-900 rounded-md">
-        <EditorContent editor={editor} className="w-full h-full" />
-      </div>
-    </div>
+      <EditorContent editor={editor} className="w-full h-full" />
+    </>
   );
 }

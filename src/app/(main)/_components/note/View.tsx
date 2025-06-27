@@ -41,7 +41,10 @@ export default function View({ note }: { note: Note }) {
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[calc(100vh-11rem)]">
-          <p>{note.content}</p>
+          <div
+            className="prose prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: note.content }}
+          />
         </ScrollArea>
       </CardContent>
     </Card>
