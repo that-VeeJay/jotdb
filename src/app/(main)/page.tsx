@@ -1,5 +1,5 @@
-import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
 import { requireUser } from "@/utils/auth/requireUser";
+import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
 import MainScreen from "./_components/MainScreen";
 
 export default async function Home() {

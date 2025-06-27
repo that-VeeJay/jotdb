@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
-import { Save, X, FileWarning } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FileWarning, Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
 import Spinner from "@/components/icons/Spinner";
 import { useSaveNote } from "@/hooks/useSaveNote";
 import { useNoteContext } from "@/context/NoteContext";
-import { Button, Input, Textarea } from "@/components/ui";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import {
+  Button,
+  Input,
+  Textarea,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
   const [title, setTitle] = useState(note.title);
@@ -58,7 +64,9 @@ export default function Edit({ note }: { note: Note }) {
         {isDirty && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <FileWarning size={18} stroke="red" />
+              <span aria-label="Unsaved changes">
+                <FileWarning size={18} stroke="red" />
+              </span>
             </TooltipTrigger>
             <TooltipContent>
               <p>You have unsaved changes.</p>

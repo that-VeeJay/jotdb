@@ -9,11 +9,11 @@ import {
   SidebarMenu,
 } from "@/components/ui";
 
+import List from "./note/List";
 import Toggle from "./sidebar/Toggle";
-import NewNoteBtn from "./sidebar/NewNoteBtn";
 import TopBar from "./sidebar/TopBar";
 import Footer from "./sidebar/Footer";
-import List from "./note/List";
+import NewNoteBtn from "./sidebar/NewNoteBtn";
 
 export function AppSidebar() {
   return (
