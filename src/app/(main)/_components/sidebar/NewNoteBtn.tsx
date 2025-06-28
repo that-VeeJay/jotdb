@@ -9,18 +9,6 @@ import { useCreateNote } from "@/hooks/useCreateNote";
 export default function NewNoteBtn() {
   const { isCreating, createNewNote } = useCreateNote();
 
-  const buttonContent = isCreating ? (
-    <div className="flex items-center gap-2">
-      <Spinner />
-      Creating new note...
-    </div>
-  ) : (
-    <>
-      New note
-      <Plus />
-    </>
-  );
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const isCtrlAltN =
@@ -40,7 +28,17 @@ export default function NewNoteBtn() {
 
   return (
     <Button disabled={isCreating} onClick={createNewNote} variant="outline">
-      {buttonContent}
+      {isCreating ? (
+        <div className="flex items-center gap-2">
+          <Spinner />
+          Creating new note...
+        </div>
+      ) : (
+        <>
+          New note
+          <Plus />
+        </>
+      )}
     </Button>
   );
 }

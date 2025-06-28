@@ -1,7 +1,7 @@
 import { ShortcutKey } from "@/components/ui";
 
 const shortcuts = [
-  { label: "Open sidebar", keys: ["Ctrl", "B"] },
+  { label: "Open sidebar", keys: ["Ctrl", "Q"] },
   { label: "New note", keys: ["Ctrl", "Alt", "N"] },
 ];
 

@@ -1,5 +1,5 @@
-import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
 import { requireUser } from "@/utils/auth/requireUser";
+import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
 import MainScreen from "./_components/MainScreen";
 
 export default async function Home() {
@@ -9,7 +9,7 @@ export default async function Home() {
     <>
       <AppSidebar />
       <main className="w-full">
-        <div className="max-w-5xl mx-auto min-h-screen flex items-center justify-center">
+        <div className="max-w-5xl mx-auto min-h-screen flex items-center justify-center px-2">
           <MainScreen />
         </div>
       </main>

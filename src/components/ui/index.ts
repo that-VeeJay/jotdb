@@ -3,9 +3,18 @@ export { Input } from "./input";
 export { Label } from "./label";
 export { Separator } from "./separator";
 export { Textarea } from "./textarea";
-export { ScrollArea, ScrollBar } from "./scroll-area";
 export { Toaster } from "./sonner";
+export { Toggle } from "./toggle";
 export { ShortcutKey } from "./shortcut-key";
+export { ScrollArea, ScrollBar } from "./scroll-area";
+export { VerticalSeparator } from "./vertical-separator";
+
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "./tooltip";
 
 export {
   Card,

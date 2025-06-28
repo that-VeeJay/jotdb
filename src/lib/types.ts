@@ -23,3 +23,12 @@ export interface NoteContextType {
   activeNote: Note | null;
   setActiveNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
+
+export interface ToggleItem {
+  name: string;
+  icon: React.ElementType;
+  command: () => void;
+  isActive: () => boolean;
+}
+
+export type ToggleSizeType = "sm" | "default" | "lg" | null | undefined;

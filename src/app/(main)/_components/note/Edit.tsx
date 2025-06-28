@@ -1,23 +1,46 @@
-import { useState } from "react";
-import { Save, X } from "lucide-react";
+import RichTextEditor from "@/app/(main)/_components/ui/RichTextEditor";
+import { useEffect, useState } from "react";
+import { FileWarning, Save, X } from "lucide-react";
 import { type Note } from "@/lib/types";
 import Spinner from "@/components/icons/Spinner";
 import { useSaveNote } from "@/hooks/useSaveNote";
 import { useNoteContext } from "@/context/NoteContext";
-import { Button, Input, Textarea } from "@/components/ui";
+import {
+  Button,
+  Input,
+  Textarea,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 
 export default function Edit({ note }: { note: Note }) {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
+  const [isDirty, setIsDirty] = useState(false);
 
   const { isSaving, saveNoteHandler } = useSaveNote(note, title, content);
-  const { setIsEditing } = useNoteContext();
+  const { setIsEditing, setActiveNote } = useNoteContext();
 
-  const handleCancel = () => setIsEditing(false);
+  useEffect(() => {
+    const normalize = (str: string) => str.trim().replace(/\s+/g, " ");
+
+    const isSame =
+      normalize(title) === normalize(note.title) &&
+      normalize(content) === normalize(note.content);
+
+    setIsDirty(!isSame);
+  }, [title, content, note]);
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setActiveNote(note);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     saveNoteHandler();
+    setIsDirty(false);
   };
 
   return (
@@ -29,15 +52,22 @@ export default function Edit({ note }: { note: Note }) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <Textarea
-        id="content"
-        name="content"
-        placeholder="Jot down your thoughts..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="h-[calc(100vh-7rem)] resize-none"
-      />
-      <div className="flex justify-end gap-3">
+      <RichTextEditor content={content} onChange={setContent} />
+
+      <div className="flex justify-end gap-3 items-center">
+        {isDirty && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span aria-label="Unsaved changes">
+                <FileWarning size={18} stroke="red" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>You have unsaved changes.</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
         <Button
           type="button"
           onClick={handleCancel}
@@ -47,19 +77,21 @@ export default function Edit({ note }: { note: Note }) {
           <X />
           cancel
         </Button>
-        <Button disabled={isSaving} type="submit" size="sm">
-          {isSaving ? (
-            <div className="flex items-center gap-2">
-              <Spinner />
-              Saving...
-            </div>
-          ) : (
-            <>
-              <Save />
-              Save
-            </>
-          )}
-        </Button>
+        <div className="relative">
+          <Button disabled={isSaving} type="submit" size="sm">
+            {isSaving ? (
+              <div className="flex items-center gap-2">
+                <Spinner />
+                Saving...
+              </div>
+            ) : (
+              <>
+                <Save />
+                Save
+              </>
+            )}
+          </Button>
+        </div>
       </div>
     </form>
   );
