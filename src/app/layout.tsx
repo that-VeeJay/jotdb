@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import { siteMetadata } from "@/lib/metadata";
 import { ThemeProvider } from "@/provider/theme-provider";
 import { Poppins } from "next/font/google";
 import { UserProvider } from "@/context/UserContext";
 import { Toaster } from "@/components/ui";
 import { getUser } from "@/utils/auth/user";
+import { type Metadata } from "next";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -13,8 +14,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "JOTDB",
-  description: "",
+  title: siteMetadata.baseTitle,
+  description: siteMetadata.baseDescription,
 };
 
 export default async function RootLayout({

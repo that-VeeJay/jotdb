@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { redirectIfAuthenticated } from "@/utils/auth/user";
 import {
@@ -8,8 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
-
 import RegisterForm from "../_components/RegisterForm";
+
+export const metadata = pageMetadata.register;
 
 export default async function RegisterPage() {
   await redirectIfAuthenticated();

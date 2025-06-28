@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { redirectIfAuthenticated } from "@/utils/auth/user";
 import {
@@ -13,6 +14,8 @@ import {
 import LoginForm from "../_components/LoginForm";
 import GithubButton from "../_components/GithubButton";
 import GoogleButton from "../_components/GoogleButton";
+
+export const metadata = pageMetadata.login;
 
 export default async function LoginPage() {
   await redirectIfAuthenticated();
