@@ -6,7 +6,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Toggle } from "@/components/ui/toggle";
 import { PaintBucket, Check, ChevronDown } from "lucide-react";
-import { Editor } from "@tiptap/react";
+import { type Editor } from "@tiptap/react";
+import { type ToggleSizeType } from "@/lib/types";
+interface PropsType {
+  iconSize: number;
+  editor: Editor;
+  toggleSize: ToggleSizeType;
+}
 
 const highlightColors = [
   { label: "Yellow", color: "#facc15" },
@@ -16,7 +22,11 @@ const highlightColors = [
   { label: "Purple", color: "#c084fc" },
 ];
 
-export function HighlightDropdown({ editor }: { editor: Editor }) {
+export default function HighlightDropdown({
+  editor,
+  iconSize,
+  toggleSize,
+}: PropsType) {
   if (!editor) return null;
 
   const activeColor = highlightColors.find((color) =>
@@ -27,11 +37,12 @@ export function HighlightDropdown({ editor }: { editor: Editor }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Toggle
+          size={toggleSize}
           pressed={!!activeColor}
           aria-label="Highlight"
           className={!!activeColor ? "bg-stone-800" : ""}
         >
-          <PaintBucket className="size-4" />
+          <PaintBucket size={iconSize} />
           <ChevronDown />
         </Toggle>
       </DropdownMenuTrigger>

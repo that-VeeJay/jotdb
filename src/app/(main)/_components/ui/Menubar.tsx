@@ -1,116 +1,43 @@
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  Bold,
-  Code,
-  CodeXml,
-  Italic,
-  List,
-  ListOrdered,
-  Quote,
-  Strikethrough,
-  Underline,
-} from "lucide-react";
+"use client";
 
-import { Editor } from "@tiptap/react";
-import { Toggle } from "@/components/ui";
 import { ScrollArea, ScrollBar, VerticalSeparator } from "@/components/ui";
+import { Editor } from "@tiptap/react";
 
-import { HeadingDropdown } from "./toggles/HeadingDropdown";
-import { HighlightDropdown } from "./toggles/HighlighDropdown";
-import { TextAlignDropdown } from "./toggles/TextAlignDropdown";
+import ListToggles from "./toggles/ListToggles";
+import ExtraToggles from "./toggles/ExtraToggles";
+import HeadingDropdown from "./toggles/HeadingDropdown";
+import HighlightDropdown from "./toggles/HighlighDropdown";
+import TextAlignDropdown from "./toggles/TextAlignDropdown";
+import FormattingToggles from "./toggles/FormattingToggles";
 
+import { type ToggleSizeType } from "@/lib/types";
+
+const TOGGLE_SIZE: ToggleSizeType = "sm";
 const ICON_SIZE = 18;
 
 export default function Menubar({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
+  const commonProps = { editor, iconSize: ICON_SIZE, toggleSize: TOGGLE_SIZE };
+
+  const components = [
+    <HeadingDropdown key="heading" {...commonProps} />,
+    <FormattingToggles key="formatting" {...commonProps} />,
+    <ListToggles key="list" {...commonProps} />,
+    <TextAlignDropdown key="align" {...commonProps} />,
+    <HighlightDropdown key="highlight" {...commonProps} />,
+    <ExtraToggles key="extra" {...commonProps} />,
+  ];
+
   return (
     <ScrollArea className="max-w-full">
       <div className="flex items-center">
-        <HeadingDropdown editor={editor} />
-        <VerticalSeparator />
-        <div className="flex items-center gap-1">
-          <Toggle
-            pressed={editor.isActive("bold")}
-            onPressedChange={() => editor.chain().focus().toggleBold().run()}
-          >
-            <Bold className="size-4" />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive("italic")}
-            onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-          >
-            <Italic size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive("strike")}
-            onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-          >
-            <Strikethrough size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive("underline")}
-            onPressedChange={() =>
-              editor.chain().focus().toggleUnderline().run()
-            }
-          >
-            <Underline size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive("code")}
-            onPressedChange={() => editor.chain().focus().toggleCode().run()}
-          >
-            <Code size={ICON_SIZE} />
-          </Toggle>
-        </div>
-        <VerticalSeparator />
-        <div className="flex items-center gap-1">
-          <Toggle
-            pressed={editor.isActive("bulletList")}
-            onPressedChange={() =>
-              editor.chain().focus().toggleBulletList().run()
-            }
-          >
-            <List size={ICON_SIZE} />
-          </Toggle>
-          <Toggle
-            pressed={editor.isActive("orderedList")}
-            onPressedChange={() =>
-              editor.chain().focus().toggleOrderedList().run()
-            }
-          >
-            <ListOrdered size={ICON_SIZE} />
-          </Toggle>
-        </div>
-        <VerticalSeparator />
-        <TextAlignDropdown editor={editor} />
-        <VerticalSeparator />
-        <div className="flex items-center gap-1">
-          <HighlightDropdown editor={editor} />
-          <Toggle
-            pressed={editor.isActive("blockquote")}
-            onPressedChange={() =>
-              editor.chain().focus().toggleBlockquote().run()
-            }
-          >
-            <Quote size={ICON_SIZE} />
-          </Toggle>
-          <Toggle
-            pressed={editor.isActive("codeBlock")}
-            onPressedChange={() =>
-              editor.chain().focus().toggleCodeBlock().run()
-            }
-          >
-            <CodeXml size={ICON_SIZE} />
-          </Toggle>
-        </div>
+        {components.map((Component, index) => (
+          <div key={index} className="flex items-center">
+            {Component}
+            {index < components.length - 1 && <VerticalSeparator />}
+          </div>
+        ))}
       </div>
       <ScrollBar orientation="horizontal" className="h-2" />
     </ScrollArea>

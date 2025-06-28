@@ -16,3 +16,7 @@ export function formatDate(dateInput: string | Date): string {
     hour12: true,
   });
 }
+
+export function capitalizeFirstChar(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

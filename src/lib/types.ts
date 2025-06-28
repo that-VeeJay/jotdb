@@ -24,9 +24,11 @@ export interface NoteContextType {
   setActiveNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
-export type ToggleItem = {
+export interface ToggleItem {
   name: string;
   icon: React.ElementType;
   command: () => void;
   isActive: () => boolean;
-};
+}
+
+export type ToggleSizeType = "sm" | "default" | "lg" | null | undefined;

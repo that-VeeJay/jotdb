@@ -1,23 +1,25 @@
-"use client";
-
 import {
+  Toggle,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { Toggle } from "@/components/ui/toggle";
-
+} from "@/components/ui";
 import {
   AlignLeft,
   AlignCenter,
   AlignRight,
   AlignJustify,
   ChevronDown,
+  icons,
 } from "lucide-react";
-import { Editor } from "@tiptap/react";
-
-const ICON_SIZE = 18;
+import { type Editor } from "@tiptap/react";
+import { type ToggleSizeType } from "@/lib/types";
+interface PropsType {
+  iconSize: number;
+  editor: Editor;
+  toggleSize: ToggleSizeType;
+}
 
 const alignments = [
   { icon: AlignLeft, label: "Left", value: "left" },
@@ -26,7 +28,11 @@ const alignments = [
   { icon: AlignJustify, label: "Justify", value: "justify" },
 ];
 
-export function TextAlignDropdown({ editor }: { editor: Editor }) {
+export default function TextAlignDropdown({
+  editor,
+  iconSize,
+  toggleSize,
+}: PropsType) {
   if (!editor) return null;
 
   const currentAlign = alignments.find(({ value }) =>
@@ -39,12 +45,13 @@ export function TextAlignDropdown({ editor }: { editor: Editor }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Toggle
+          size={toggleSize}
           aria-label="Toggle text alignment"
           pressed={!!currentAlign}
           className="flex items-center gap-1"
         >
-          <CurrentIcon size={ICON_SIZE} />
-          <ChevronDown size={ICON_SIZE - 2} className="ml-1" />
+          <CurrentIcon size={iconSize} />
+          <ChevronDown />
         </Toggle>
       </DropdownMenuTrigger>
 
@@ -57,7 +64,7 @@ export function TextAlignDropdown({ editor }: { editor: Editor }) {
               onClick={() => editor.chain().focus().setTextAlign(value).run()}
               className={isActive ? "bg-muted" : ""}
             >
-              <Icon size={ICON_SIZE} className="mr-2" />
+              <Icon size={iconSize} className="mr-2" />
               {label}
             </DropdownMenuItem>
           );
