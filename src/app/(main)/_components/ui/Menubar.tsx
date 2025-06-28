@@ -30,7 +30,7 @@ export default function Menubar({ editor }: { editor: Editor }) {
   ];
 
   return (
-    <ScrollArea className="max-w-full">
+    <ScrollArea className="max-w-full dark:bg-stone-900 p-0.5 rounded-lg border">
       <div className="flex items-center">
         {components.map((Component, index) => (
           <div key={index} className="flex items-center">

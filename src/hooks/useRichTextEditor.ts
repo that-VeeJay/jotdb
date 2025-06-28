@@ -11,7 +11,7 @@ export function useRichTextEditor(
   setHtml: (html: string) => void
 ) {
   const proseClass =
-    "prose prose-invert w-full h-[calc(100vh-10rem)] p-2 md:p-4 outline-none dark:bg-stone-900 rounded-lg border dark:border-stone-800 overflow-auto scrollbar-thin scrollbar-thumb-stone-700 scrollbar-track-transparent";
+    "prose prose-invert w-full h-[calc(100vh-10rem)] p-2 md:p-4 outline-none dark:bg-transparent rounded-lg border dark:border-stone-800 overflow-auto scrollbar-thin scrollbar-thumb-stone-700 scrollbar-track-transparent";
 
   const bulletList = "list-disc ml-10";
 
