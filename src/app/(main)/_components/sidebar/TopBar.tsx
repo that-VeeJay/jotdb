@@ -1,5 +1,5 @@
 import { SidebarTrigger } from "@/components/ui";
-import { ProjectInfo } from "../ProjectInfo";
+import { ProjectInfo } from "../ui/ProjectInfo";
 
 export default function TopBar() {
   return (

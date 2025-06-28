@@ -1,27 +1,26 @@
-import { Toggle } from "@/components/ui";
-import { Editor } from "@tiptap/react";
-import { ScrollArea, ScrollBar, VerticalSeparator } from "@/components/ui";
-import { HighlightDropdown } from "./toggles/HighlighDropdown";
-import { HeadingDropdown } from "./toggles/HeadingDropdown";
 import {
   AlignCenter,
+  AlignJustify,
   AlignLeft,
   AlignRight,
   Bold,
   Code,
-  Heading1,
-  Heading2,
-  Heading3,
-  Highlighter,
   CodeXml,
-  Quote,
-  AlignJustify,
   Italic,
-  Underline,
   List,
   ListOrdered,
+  Quote,
   Strikethrough,
+  Underline,
 } from "lucide-react";
+
+import { Editor } from "@tiptap/react";
+import { Toggle } from "@/components/ui";
+import { ScrollArea, ScrollBar, VerticalSeparator } from "@/components/ui";
+
+import { HeadingDropdown } from "./toggles/HeadingDropdown";
+import { HighlightDropdown } from "./toggles/HighlighDropdown";
+import { TextAlignDropdown } from "./toggles/TextAlignDropdown";
 
 const ICON_SIZE = 18;
 
@@ -29,11 +28,11 @@ export default function Menubar({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
   return (
-    <ScrollArea className="w-full rounded-md border whitespace-nowrap p-1">
+    <ScrollArea className="max-w-full">
       <div className="flex items-center">
         <HeadingDropdown editor={editor} />
         <VerticalSeparator />
-        <div className="space-x-1">
+        <div className="flex items-center gap-1">
           <Toggle
             pressed={editor.isActive("bold")}
             onPressedChange={() => editor.chain().focus().toggleBold().run()}
@@ -72,7 +71,7 @@ export default function Menubar({ editor }: { editor: Editor }) {
           </Toggle>
         </div>
         <VerticalSeparator />
-        <div className="space-x-1">
+        <div className="flex items-center gap-1">
           <Toggle
             pressed={editor.isActive("bulletList")}
             onPressedChange={() =>
@@ -91,45 +90,9 @@ export default function Menubar({ editor }: { editor: Editor }) {
           </Toggle>
         </div>
         <VerticalSeparator />
-        <div className="space-x-1">
-          <Toggle
-            pressed={editor.isActive({ textAlign: "left" })}
-            onPressedChange={() =>
-              editor.chain().focus().setTextAlign("left").run()
-            }
-          >
-            <AlignLeft size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive({ textAlign: "center" })}
-            onPressedChange={() =>
-              editor.chain().focus().setTextAlign("center").run()
-            }
-          >
-            <AlignCenter size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive({ textAlign: "right" })}
-            onPressedChange={() =>
-              editor.chain().focus().setTextAlign("right").run()
-            }
-          >
-            <AlignRight size={ICON_SIZE} />
-          </Toggle>
-
-          <Toggle
-            pressed={editor.isActive({ textAlign: "justify" })}
-            onPressedChange={() =>
-              editor.chain().focus().setTextAlign("justify").run()
-            }
-          >
-            <AlignJustify size={ICON_SIZE} />
-          </Toggle>
-        </div>
+        <TextAlignDropdown editor={editor} />
         <VerticalSeparator />
-        <div className="space-x-1">
+        <div className="flex items-center gap-1">
           <HighlightDropdown editor={editor} />
           <Toggle
             pressed={editor.isActive("blockquote")}
