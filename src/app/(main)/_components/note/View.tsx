@@ -17,6 +17,8 @@ export default function View({ note }: { note: Note }) {
 
   const editNote = () => setIsEditing(true);
 
+  const fixedContent = note.content.replace(/<p><\/p>/g, "<p><br></p>");
+
   return (
     <Card className="bg-transparent border-none w-full">
       <CardHeader>
@@ -42,8 +44,8 @@ export default function View({ note }: { note: Note }) {
       <CardContent>
         <ScrollArea className="h-[calc(100vh-11rem)]">
           <div
-            className="prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: note.content }}
+            className="prose prose-invert max-w-none whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: fixedContent }}
           />
         </ScrollArea>
       </CardContent>
