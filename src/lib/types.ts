@@ -3,11 +3,6 @@ export interface User {
   name: string;
   email: string;
 }
-export interface AuthenticatedUserInfo {
-  id: string;
-  email: string;
-  display_name: string;
-}
 export interface Note {
   user_id: string;
   id: string;
@@ -23,7 +18,6 @@ export interface NoteContextType {
   activeNote: Note | null;
   setActiveNote: React.Dispatch<React.SetStateAction<Note | null>>;
 }
-
 export interface ToggleItem {
   name: string;
   icon: React.ElementType;

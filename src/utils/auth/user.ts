@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../supabase/server";
-import type { AuthenticatedUserInfo } from "@/lib/types";
+import { type User } from "@/lib/types";
 
-export async function requireUser(): Promise<AuthenticatedUserInfo> {
+export async function getUser(): Promise<User | null> {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
-  if (!data.user) redirect("/login");
+  if (!data.user) return null;
 
   const {
     id,
@@ -17,8 +17,15 @@ export async function requireUser(): Promise<AuthenticatedUserInfo> {
   return {
     id,
     email: email ?? "",
-    display_name: display_name ?? "",
+    name: display_name ?? "",
   };
+}
+
+export async function requireUser(): Promise<void> {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+
+  if (!data.user) redirect("/login");
 }
 
 export async function redirectIfAuthenticated(): Promise<void> {

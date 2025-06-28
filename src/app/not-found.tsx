@@ -1,5 +1,8 @@
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { Button } from "@/components/ui";
+
+export const metadata = pageMetadata.notFound;
 
 export default function NotFound() {
   return (
