@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { redirectIfAuthenticated } from "@/utils/auth/requireUser";
+import { redirectIfAuthenticated } from "@/utils/auth/user";
 import {
   Card,
   CardContent,

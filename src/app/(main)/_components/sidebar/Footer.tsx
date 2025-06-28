@@ -1,6 +1,6 @@
 import { ChevronUp, User2 } from "lucide-react";
 
-import { requireUser } from "@/utils/auth/requireUser";
+import { getUser } from "@/utils/auth/user";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import {
   DropdownMenu,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui";
 
 export default async function Footer() {
-  const { name, email } = await requireUser();
+  const user = await getUser();
 
   return (
     <SidebarFooter>
@@ -32,9 +32,13 @@ export default async function Footer() {
                   <div className="flex flex-col">
                     <span className="text-xs">
                       Signed in as:{" "}
-                      <span className="text-sm font-semibold">{name}</span>
+                      <span className="text-sm font-semibold">
+                        {user?.name}
+                      </span>
                     </span>
-                    <span className="text-xs text-stone-400">{email}</span>
+                    <span className="text-xs text-stone-400">
+                      {user?.email}
+                    </span>
                   </div>
                 </div>
                 <ChevronUp className="ml-auto" />

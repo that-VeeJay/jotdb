@@ -13,11 +13,15 @@ import type { User } from "@/lib/types";
 type UserContextType = {
   user: User | null;
 };
+interface Props {
+  children: ReactNode;
+  initialUser: User | null;
+}
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export function UserProvider({ children, initialUser }: Props) {
+  const [user, setUser] = useState<User | null>(initialUser);
   const supabase = createClient();
 
   // fetch the authenticated user info and assign it to user state
@@ -35,7 +39,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     };
 
     fetchUser().then(setUser);
-  }, []);
+  }, [initialUser]);
 
   return (
     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>

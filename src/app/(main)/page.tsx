@@ -1,4 +1,4 @@
-import { requireUser } from "@/utils/auth/requireUser";
+import { requireUser } from "@/utils/auth/user";
 import { AppSidebar } from "@/app/(main)/_components/AppSidebar";
 import MainScreen from "./_components/MainScreen";
 
