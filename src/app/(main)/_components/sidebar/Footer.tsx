@@ -14,7 +14,7 @@ import {
 } from "@/components/ui";
 
 export default async function Footer() {
-  const { display_name, email } = await requireUser();
+  const { name, email } = await requireUser();
 
   return (
     <SidebarFooter>
@@ -32,9 +32,7 @@ export default async function Footer() {
                   <div className="flex flex-col">
                     <span className="text-xs">
                       Signed in as:{" "}
-                      <span className="text-sm font-semibold">
-                        {display_name}
-                      </span>
+                      <span className="text-sm font-semibold">{name}</span>
                     </span>
                     <span className="text-xs text-stone-400">{email}</span>
                   </div>
