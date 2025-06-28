@@ -29,8 +29,9 @@ export async function login(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    console.log(error.message);
     return {
-      errors: {
+        errors: {
         formErrors: [error.message],
         fieldErrors: {},
       },
