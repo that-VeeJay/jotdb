@@ -8,6 +8,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [GitHub, Google],
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
+  trustHost: true,
 });
