@@ -1,7 +1,7 @@
 import { Home } from "lucide-react";
-import Header from "./Header";
-import Tags from "./Tags";
-import Footer from "./Footer";
+
+import { auth } from "@/auth";
+import type { UserSession } from "@/lib/types";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +11,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui";
+
+import Tags from "./Tags";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const items = [
   {
@@ -21,10 +25,13 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+export async function AppSidebar() {
+  const session = await auth();
+  const user = session!.user as UserSession;
+
   return (
     <Sidebar variant="floating">
-      <Header />
+      <Header user={user} />
       <Tags />
       <SidebarContent>
         <SidebarGroup>
