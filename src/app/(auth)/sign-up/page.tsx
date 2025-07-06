@@ -9,35 +9,29 @@ import {
   CardTitle,
   Input,
   Label,
-  Separator,
 } from "@/components/ui";
 
-import GoogleButton from "../_components/GoogleButton";
-import GithubButton from "../_components/GithubButton";
-
-export default function SignIn() {
+export default function SignUp() {
   return (
     <Card className="w-full max-w-sm sm:bg-none!">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign in </CardTitle>
+        <CardTitle className="text-2xl">Create your account</CardTitle>
         <CardDescription>
-          Please enter your credentials to continue.
+          Fill in the details below to sign up and get started.
         </CardDescription>
       </CardHeader>
-
       <CardContent>
-        <div className="flex flex-col gap-3">
-          <GithubButton />
-          <GoogleButton />
-        </div>
-        <div className="flex items-center gap-3  my-6">
-          <Separator className="flex-1" />
-          <span className="text-xs text-muted-foreground">
-            Or continue with email
-          </span>
-          <Separator className="flex-1" />
-        </div>
         <form className="flex flex-col gap-4">
+          <div className="space-y-1">
+            <Label htmlFor="name">Display name</Label>
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              className="h-10 text-base px-3"
+              autoComplete="name"
+            />
+          </div>
           <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -58,14 +52,22 @@ export default function SignIn() {
               autoComplete="password"
             />
           </div>
-
-          <Button type="submit">Login</Button>
+          <div className="space-y-1">
+            <Label htmlFor="confirm_password">Confirm Password</Label>
+            <Input
+              id="confirm_password"
+              name="confirm_password"
+              type="password"
+              className="h-10 text-base px-3"
+            />
+          </div>
+          <Button type="submit">Create account</Button>
         </form>
       </CardContent>
       <CardFooter className="justify-center text-sm">
-        Don't have an account?
-        <Link href="/sign-up" className=" hover:underline font-medium pl-1">
-          Sign up.
+        Already have an account?
+        <Link href="/sign-in" className=" hover:underline font-medium pl-1">
+          Sign in.
         </Link>
       </CardFooter>
     </Card>

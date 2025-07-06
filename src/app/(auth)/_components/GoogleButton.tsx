@@ -13,6 +13,7 @@ export default function GoogleButton() {
     <Button
       onClick={() => startTransition(() => googleSignin())}
       disabled={isPending}
+      variant="outline"
       size="lg"
       className="w-xs"
     >

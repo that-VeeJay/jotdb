@@ -13,6 +13,7 @@ export default function GithubButton() {
     <Button
       onClick={() => startTransition(() => githubSignin())}
       disabled={isPending}
+      variant="outline"
       size="lg"
       className="w-xs"
     >
