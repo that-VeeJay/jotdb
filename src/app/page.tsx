@@ -1,10 +1,9 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui";
 import SignoutButton from "./(auth)/_components/SignoutButton";
 
 export default async function Home() {
   const session = await auth();
-  console.log(session);
 
   return (
     <main className="flex items-center justify-center min-h-screen">
