@@ -11,8 +11,10 @@ export default function SignoutButton() {
     <Button
       onClick={() => startTransition(() => signOutUser())}
       type="submit"
+      size="sm"
       disabled={isPending}
       variant="destructive"
+      className="flex-1"
     >
       {isPending ? "Signing out..." : "Sign out"}
     </Button>
