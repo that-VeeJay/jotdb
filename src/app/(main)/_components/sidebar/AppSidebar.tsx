@@ -1,28 +1,17 @@
 import { auth } from "@/lib/auth";
 import { UserSession } from "@/lib/types";
-import { Home } from "lucide-react";
-import Header from "./Header";
-import Footer from "./Footer";
-import { Categories } from "./Categories";
 import {
-  SidebarTrigger,
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui";
 
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-];
+import Header from "./Header";
+import Footer from "./Footer";
+import NotesList from "./NotesList";
+import { Categories } from "./Categories";
 
 export async function AppSidebar() {
   const session = await auth();
@@ -38,20 +27,7 @@ export async function AppSidebar() {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Notes</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
+            <NotesList />
           </SidebarGroup>
         </SidebarContent>
         <Footer />
