@@ -3,6 +3,7 @@ import { UserSession } from "@/lib/types";
 import { Home } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Categories } from "./Categories";
 import {
   SidebarTrigger,
   Sidebar,
@@ -31,6 +32,9 @@ export async function AppSidebar() {
     <>
       <Sidebar variant="floating">
         <Header user={user} />
+        <SidebarGroup>
+          <Categories />
+        </SidebarGroup>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Notes</SidebarGroupLabel>

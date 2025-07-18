@@ -1,4 +1,4 @@
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { ThemeTogglev1 } from "@/components/shared/ThemeTogglev1";
 
 export default function Layout({
   children,
@@ -8,7 +8,7 @@ export default function Layout({
   return (
     <main className="relative flex items-center justify-center min-h-screen">
       <div className="absolute top-3 right-3">
-        <ThemeToggle />
+        <ThemeTogglev1 />
       </div>
       {children}
     </main>

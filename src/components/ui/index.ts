@@ -2,8 +2,16 @@ export { Button } from "./button";
 export { Input } from "./input";
 export { Label } from "./label";
 export { Separator } from "./separator";
+export { Badge } from "./badge";
 
 export { Avatar, AvatarImage, AvatarFallback } from "./avatar";
+
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+} from "./popover";
 
 export {
   Tooltip,

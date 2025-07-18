@@ -11,7 +11,7 @@ const themes = [
   { name: "system", icon: Laptop },
 ];
 
-export function ThemeToggle() {
+export function ThemeTogglev1() {
   const { theme, setTheme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
 
