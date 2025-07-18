@@ -7,7 +7,6 @@ import {
   SidebarGroupLabel,
   SidebarTrigger,
 } from "@/components/ui";
-
 import Header from "./Header";
 import Footer from "./Footer";
 import NotesList from "./NotesList";
