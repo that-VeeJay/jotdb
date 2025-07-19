@@ -4,7 +4,11 @@ export interface UserSession {
   image: string | null;
 }
 
-export interface NoteType {
+export interface NotePreview {
+  id: string;
+  title: string;
+}
+export interface Note {
   id: string;
   title: string;
   body: string;
@@ -13,7 +17,7 @@ export interface NoteType {
   userId: string;
 }
 
-export interface CategoriesType {
+export interface Category {
   id: string;
   name: string;
   userId: string;

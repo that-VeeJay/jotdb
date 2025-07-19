@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { useNotesStore } from "@/store";
+import { useNotesStore, useCategoriesStore } from "@/store";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
@@ -16,13 +16,16 @@ import Note from "./Note";
 
 export default function NotesList() {
   const sensors = useDnDSensors();
+
   const notes = useNotesStore((state) => state.notes);
   const setNotes = useNotesStore((state) => state.setNotes);
   const fetchNotes = useNotesStore((state) => state.fetchNotes);
 
+  const activeCategory = useCategoriesStore((state) => state.activeCategory);
+
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    if (activeCategory) fetchNotes(activeCategory);
+  }, [activeCategory]);
 
   const getNotePosition = (id: string) =>
     notes.findIndex((note) => note.id === id);

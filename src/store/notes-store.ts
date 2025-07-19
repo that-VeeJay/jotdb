@@ -1,18 +1,18 @@
 import { create } from "zustand";
-import type { NoteType } from "@/lib/types";
+import type { NotePreview } from "@/lib/types";
 
 interface NoteStore {
-  notes: NoteType[];
-  setNotes: (notes: NoteType[]) => void;
-  fetchNotes: () => Promise<void>;
+  notes: NotePreview[];
+  setNotes: (notes: NotePreview[]) => void;
+  fetchNotes: (categoryId: string) => Promise<void>;
 }
 
 export const useNotesStore = create<NoteStore>((set) => ({
   notes: [],
   setNotes: (notes) => set({ notes }),
-  fetchNotes: async () => {
-    const response = await fetch("/api/notes");
-    const data: NoteType[] = await response.json();
+  fetchNotes: async (categoryId) => {
+    const response = await fetch(`/api/notes?categoryId=${categoryId}`);
+    const data = await response.json();
     set({ notes: data });
   },
 }));
