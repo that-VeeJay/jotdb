@@ -15,36 +15,49 @@ import {
 } from "@/components/ui";
 
 export function Categories() {
+  // Get category data and functions from the global store
   const categories = useCategoriesStore((state) => state.categories);
   const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
   const setActiveCategory = useCategoriesStore(
     (state) => state.setActiveCategory
   );
 
-  const [currentCategory, setCurrentCategory] = useState("");
+  // Local state to track the selected category
+  const [selectedCategory, setSelectedCategory] = useState({
+    id: "",
+    name: "",
+  });
 
-  // Fetch categories on initial render
+  // Fetch categories when the component is first rendered
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  // Set the first category as default and sync with global category store
+  // Set the default selected category and sync it with the global store
   useEffect(() => {
-    if (categories.length > 0 && currentCategory === "") {
-      setCurrentCategory(categories[0].name);
-    }
+    const firstCategory = categories[0];
 
-    if (currentCategory) {
-      setActiveCategory(currentCategory);
+    if (firstCategory && selectedCategory.id === "") {
+      setSelectedCategory({ id: firstCategory.id, name: firstCategory.name });
+      setActiveCategory(firstCategory.id);
     }
-  }, [categories, currentCategory]);
+  }, [categories, selectedCategory.id]);
+
+  // Handle category change when the user selects a new one
+  function handleCategoryChange(name: string) {
+    const category = categories.find((cat) => cat.name === name);
+    if (category) {
+      setSelectedCategory({ id: category.id, name: category.name });
+      setActiveCategory(category.id);
+    }
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="sm" className="flex items-center">
           <span className="bg-green-500 h-[6px] w-[6px] rounded-full"></span>
-          <span>{currentCategory}</span>
+          <span>{selectedCategory.name}</span>
         </Button>
       </DropdownMenuTrigger>
 
@@ -58,8 +71,8 @@ export function Categories() {
           </p>
         ) : (
           <DropdownMenuRadioGroup
-            value={currentCategory}
-            onValueChange={setCurrentCategory}
+            value={selectedCategory.name}
+            onValueChange={handleCategoryChange}
           >
             {categories.map((category) => (
               <DropdownMenuRadioItem key={category.id} value={category.name}>
