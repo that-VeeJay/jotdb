@@ -7,7 +7,7 @@ import {
   SidebarFooter,
 } from "@/components/ui";
 import {
-  Circle,
+  Settings,
   CircleQuestionMark,
   Keyboard,
   Book,
@@ -21,7 +21,7 @@ export default function Footer() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Button variant="ghost" size="icon">
-            <Circle size={18} className="text-muted-foreground" />
+            <Settings size={18} className="text-muted-foreground" />
           </Button>
 
           <ThemeTogglev2 />

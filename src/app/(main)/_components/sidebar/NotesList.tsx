@@ -2,19 +2,20 @@
 
 import { useEffect } from "react";
 
-import { useNotesStore, useCategoriesStore } from "@/store";
+import { useNotesStore, useCategoriesStore, useSortStore } from "@/store";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
 import Note from "./Note";
 
 export default function NotesList() {
+  const order = useSortStore((state) => state.order);
   const sensors = useDnDSensors();
 
   const notes = useNotesStore((state) => state.notes);
@@ -42,23 +43,44 @@ export default function NotesList() {
     setNotes(reordered);
   };
 
+  // Sort notes if order is "asc" or "desc"
+  const sortedNotes = [...notes];
+  if (order === "asc") {
+    sortedNotes.sort(
+      (a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+  } else if (order === "desc") {
+    sortedNotes.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }
+
+  const NoteListContent = (
+    <SidebarGroupContent className="column overflow-hidden h-full">
+      <SidebarMenu>
+        {sortedNotes.length === 0
+          ? "No notes in this category"
+          : sortedNotes.map((note) => (
+              <Note key={note.id} id={note.id} title={note.title} />
+            ))}
+      </SidebarMenu>
+    </SidebarGroupContent>
+  );
+
+  // Disable drag-and-drop when sorting order (asc/desc) is active
+  if (["asc", "desc"].includes(order)) return NoteListContent;
+
   return (
     <DndContext
       onDragEnd={handleDragEnd}
       sensors={sensors}
       collisionDetection={closestCorners}
     >
-      <SidebarGroupContent className="column overflow-hidden h-full">
-        <SortableContext items={notes} strategy={verticalListSortingStrategy}>
-          <SidebarMenu>
-            {notes.length === 0
-              ? "No notes in this category"
-              : notes.map((note) => (
-                  <Note key={note.id} id={note.id} title={note.title} />
-                ))}
-          </SidebarMenu>
-        </SortableContext>
-      </SidebarGroupContent>
+      <SortableContext items={notes} strategy={verticalListSortingStrategy}>
+        {NoteListContent}
+      </SortableContext>
     </DndContext>
   );
 }

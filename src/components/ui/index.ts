@@ -3,6 +3,7 @@ export { Input } from "./input";
 export { Label } from "./label";
 export { Separator } from "./separator";
 export { Badge } from "./badge";
+export { Toggle } from "./toggle";
 
 export { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 

@@ -8,6 +8,7 @@ export interface UserSession {
 export interface NotePreview {
   id: string;
   title: string;
+  createdAt: string;
 }
 export interface Note {
   id: string;

@@ -11,6 +11,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import NotesList from "./NotesList";
 import { Categories } from "./Categories";
+import SortControls from "./SortControls";
 
 export async function AppSidebar() {
   const session = await auth();
@@ -25,7 +26,12 @@ export async function AppSidebar() {
         </SidebarGroup>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Notes</SidebarGroupLabel>
+            <div className="flex items-center justify-between">
+              <SidebarGroupLabel>Notes</SidebarGroupLabel>
+              <div className="flex items-center gap-1">
+                <SortControls />
+              </div>
+            </div>
             <NotesList />
           </SidebarGroup>
         </SidebarContent>
