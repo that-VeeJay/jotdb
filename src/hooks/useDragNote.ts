@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { arrayMove } from "@dnd-kit/sortable";
-import { sidebarItems } from "@/lib/data/SidebarItems";
+import { Notes } from "@/lib/data/Notes";
 
 export function useDragNotes() {
-  const [notes, setNotes] = useState(sidebarItems);
+  const [notes, setNotes] = useState(Notes);
 
   const getNotePosition = (id: number) =>
     notes.findIndex((note) => note.id === id);
