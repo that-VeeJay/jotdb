@@ -1,23 +1,36 @@
 "use client";
 
-import { useHydrated } from "@/hooks/useHydrated";
-import { useDragNotes } from "@/hooks/useDragNote";
+import { useState } from "react";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
 import {
+  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
 import Note from "./Note";
+import { NotesList as List } from "@/lib/data/NotesList";
 
 export default function NotesList() {
-  const hydrated = useHydrated();
   const sensors = useDnDSensors();
-  const { notes, handleDragEnd } = useDragNotes();
+  const [notes, setNotes] = useState(List);
 
-  if (!hydrated) return null;
+  const getNotePosition = (id: number) =>
+    notes.findIndex((note) => note.id === id);
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    setNotes((prev) => {
+      const from = getNotePosition(active.id);
+      const to = getNotePosition(over.id);
+      console.log(arrayMove(prev, from, to));
+      return arrayMove(prev, from, to);
+    });
+  };
 
   return (
     <DndContext

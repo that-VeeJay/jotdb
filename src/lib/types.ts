@@ -3,3 +3,12 @@ export interface UserSession {
   email: string | null;
   image: string | null;
 }
+
+export interface NoteType {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: string;
+  category: string;
+  userId: string;
+}
