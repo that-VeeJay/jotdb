@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
+
+import { useNotesStore } from "@/store/notes-store";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
@@ -11,25 +13,30 @@ import {
 } from "@dnd-kit/sortable";
 
 import Note from "./Note";
-import { NotesList as List } from "@/lib/data/NotesList";
 
 export default function NotesList() {
   const sensors = useDnDSensors();
-  const [notes, setNotes] = useState(List);
+  const notes = useNotesStore((state) => state.notes);
+  const setNotes = useNotesStore((state) => state.setNotes);
+  const fetchNotes = useNotesStore((state) => state.fetchNotes);
 
-  const getNotePosition = (id: number) =>
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const getNotePosition = (id: string) =>
     notes.findIndex((note) => note.id === id);
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    setNotes((prev) => {
-      const from = getNotePosition(active.id);
-      const to = getNotePosition(over.id);
-      console.log(arrayMove(prev, from, to));
-      return arrayMove(prev, from, to);
-    });
+    const reordered = arrayMove(
+      notes,
+      getNotePosition(active.id),
+      getNotePosition(over.id)
+    );
+    setNotes(reordered);
   };
 
   return (
@@ -41,9 +48,11 @@ export default function NotesList() {
       <SidebarGroupContent className="column overflow-hidden h-full">
         <SortableContext items={notes} strategy={verticalListSortingStrategy}>
           <SidebarMenu>
-            {notes.map((note) => (
-              <Note id={note.id} title={note.title} key={note.id} />
-            ))}
+            {notes.length === 0
+              ? "No notes in this category"
+              : notes.map((note) => (
+                  <Note key={note.id} id={note.id} title={note.title} />
+                ))}
           </SidebarMenu>
         </SortableContext>
       </SidebarGroupContent>

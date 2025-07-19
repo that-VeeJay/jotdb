@@ -10,7 +10,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Ellipsis } from "lucide-react";
 
-export default function Note({ id, title }: { id: number; title: string }) {
+export default function Note({ id, title }: { id: string; title: string }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
