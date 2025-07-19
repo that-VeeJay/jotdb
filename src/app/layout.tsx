@@ -1,6 +1,11 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
+
 import { Poppins } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/components/theme-provider";
+
+import Session from "@/lib/session";
+
 import "./globals.css";
 
 const poppins = Poppins({
@@ -23,14 +28,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Session />
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

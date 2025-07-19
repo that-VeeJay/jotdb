@@ -10,7 +10,7 @@ interface NoteStore {
 export const useNotesStore = create<NoteStore>((set) => ({
   notes: [],
   setNotes: (notes) => set({ notes }),
-  fetchNotes: async (categoryId) => {
+  fetchNotes: async (categoryId: string) => {
     const response = await fetch(`/api/notes?categoryId=${categoryId}`);
     const data = await response.json();
     set({ notes: data });

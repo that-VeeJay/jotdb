@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
-import { useCategoriesStore } from "@/store";
+import { useCategoriesStore, useUserStore } from "@/store";
 import {
   Button,
   DropdownMenu,
@@ -15,6 +15,9 @@ import {
 } from "@/components/ui";
 
 export function Categories() {
+  // Get authenticated user and id
+  const userId = useUserStore((state) => state.user?.id);
+
   // Get category data and functions from the global store
   const categories = useCategoriesStore((state) => state.categories);
   const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
@@ -30,8 +33,10 @@ export function Categories() {
 
   // Fetch categories when the component is first rendered
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (userId) {
+      fetchCategories(userId);
+    }
+  }, [userId]);
 
   // Set the default selected category and sync it with the global store
   useEffect(() => {
