@@ -12,3 +12,9 @@ export interface NoteType {
   category: string;
   userId: string;
 }
+
+export interface CategoriesType {
+  id: string;
+  name: string;
+  userId: string;
+}

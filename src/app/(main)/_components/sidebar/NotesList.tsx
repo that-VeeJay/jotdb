@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { useNotesStore } from "@/store/notes-store";
+import { useNotesStore } from "@/store";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { SidebarGroupContent, SidebarMenu } from "@/components/ui";

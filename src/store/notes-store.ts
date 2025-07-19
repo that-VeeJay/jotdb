@@ -11,8 +11,8 @@ export const useNotesStore = create<NoteStore>((set) => ({
   notes: [],
   setNotes: (notes) => set({ notes }),
   fetchNotes: async () => {
-    const res = await fetch("/api/notes");
-    const data: NoteType[] = await res.json();
+    const response = await fetch("/api/notes");
+    const data: NoteType[] = await response.json();
     set({ notes: data });
   },
 }));
