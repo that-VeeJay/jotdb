@@ -1,56 +1,69 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 async function main() {
-  const categories = ["Work", "Personal", "Study", "Travel", "Fitness"];
+  const userId = "cmdaaqkg70000ikuwz13gs5cq";
 
-  const titles = [
-    "Team Sync Notes",
-    "Grocery List",
-    "React Learning",
-    "Book Summary: Deep Work",
-    "Trip to Kyoto",
-    "Meeting Agenda",
-    "Recipe Ideas",
-    "Workout Log",
-    "Side Project Ideas",
-    "Study Plan for Finals",
-  ];
-
-  const bodies = [
-    "Content goes here...",
-    "This is a placeholder note body.",
-    "Remember to follow up with Jane.",
-    "Ideas for improving UI.",
-    "Read more about async patterns.",
-    "Tasks for the week.",
-    "Refactor this function.",
-    "Start writing daily journal.",
-    "Review code from yesterday.",
-    "Prepare for presentation.",
-  ];
-
-  for (let i = 0; i < 10; i++) {
-    await prisma.note.create({
-      data: {
-        title: titles[i],
-        body: bodies[i],
-        category: categories[Math.floor(Math.random() * categories.length)],
-        createdAt: new Date(
-          Date.now() - Math.floor(Math.random() * 30) * 86400000
-        ),
-        userId: "cmd69muyf0000ikwwaot0ualt",
+  const workCategory = await prisma.category.upsert({
+    where: {
+      name_userId: {
+        name: "Work",
+        userId,
       },
-    });
-  }
+    },
+    update: {},
+    create: {
+      name: "Work",
+      userId,
+    },
+  });
+
+  const personalCategory = await prisma.category.upsert({
+    where: {
+      name_userId: {
+        name: "Personal",
+        userId,
+      },
+    },
+    update: {},
+    create: {
+      name: "Personal",
+      userId,
+    },
+  });
+
+  await prisma.note.createMany({
+    data: [
+      {
+        title: "Finish project proposal",
+        content: "Draft and finalize the proposal for next week.",
+        userId,
+        categoryId: workCategory.id,
+      },
+      {
+        title: "Buy groceries",
+        content: "Milk, Eggs, Bread, and Butter.",
+        userId,
+        categoryId: personalCategory.id,
+      },
+      {
+        title: "Team meeting notes",
+        content: "Discussed app architecture and timelines.",
+        userId,
+        categoryId: workCategory.id,
+      },
+    ],
+  });
+
+  console.log("🌱 Seeding complete!");
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
+  .catch((e) => {
+    console.error("❌ Seeding failed:", e);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
