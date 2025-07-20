@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
+import { ClientRequest } from "http";
 
 export function Categories() {
   // Get authenticated user and id
@@ -70,11 +71,7 @@ export function Categories() {
         <DropdownMenuLabel>Select a category</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {categories.length === 0 ? (
-          <p className="p-3 text-sm text-muted-foreground">
-            No categories available. Click below to add your first one!
-          </p>
-        ) : (
+        {categories && (
           <DropdownMenuRadioGroup
             value={selectedCategory.name}
             onValueChange={handleCategoryChange}

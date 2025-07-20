@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { Category } from "@/lib/types";
-
+import { fetchUserCategories } from "@/lib/api/categories";
 interface CategoriesStore {
   categories: Category[];
   fetchCategories: (userId: string) => Promise<void>;
@@ -10,9 +10,8 @@ interface CategoriesStore {
 
 export const useCategoriesStore = create<CategoriesStore>((set) => ({
   categories: [],
-  fetchCategories: async (userId: string) => {
-    const response = await fetch(`/api/categories?userId=${userId}`);
-    const data: Category[] = await response.json();
+  fetchCategories: async (userId) => {
+    const data = await fetchUserCategories(userId);
     set({ categories: data });
   },
   activeCategory: "",

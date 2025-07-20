@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const userId = "cmdaaqkg70000ikuwz13gs5cq";
+  const userId = "cmdblsax30000ikz4226tucvg";
 
   const workCategory = await prisma.category.upsert({
     where: {

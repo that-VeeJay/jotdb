@@ -26,4 +26,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
+  events: {
+    async createUser({ user }) {
+      if (!user.id) {
+        console.error("User ID is undefined during createUser event");
+        return;
+      }
+      // Automatically create "Unsorted" category when a new user signs in for the first time
+      await prisma.category.create({
+        data: {
+          name: "Unsorted",
+          userId: user.id,
+        },
+      });
+    },
+  },
 } satisfies NextAuthConfig);

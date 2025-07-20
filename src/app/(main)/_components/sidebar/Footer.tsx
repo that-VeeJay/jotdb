@@ -37,15 +37,7 @@ export default function Footer() {
               <Book />
               About
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="justify-start"
-              disabled={true}
-            >
-              <Keyboard />
-              Keyboard Shortcuts
-            </Button>
+
             <Separator className="my-2" />
             <span className="text-xs text-muted-foreground ml-3">
               What's new?

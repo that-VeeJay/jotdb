@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { NotePreview } from "@/lib/types";
+import { fetchUserNotePreviews } from "@/lib/api/notes";
 
 interface NoteStore {
   notes: NotePreview[];
@@ -10,9 +11,8 @@ interface NoteStore {
 export const useNotesStore = create<NoteStore>((set) => ({
   notes: [],
   setNotes: (notes) => set({ notes }),
-  fetchNotes: async (categoryId: string) => {
-    const response = await fetch(`/api/notes?categoryId=${categoryId}`);
-    const data = await response.json();
+  fetchNotes: async (categoryId) => {
+    const data = await fetchUserNotePreviews(categoryId);
     set({ notes: data });
   },
 }));

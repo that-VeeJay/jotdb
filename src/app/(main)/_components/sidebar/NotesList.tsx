@@ -2,16 +2,17 @@
 
 import { useEffect } from "react";
 
-import { useNotesStore, useCategoriesStore, useSortStore } from "@/store";
+import type { DragEndEvent } from "@dnd-kit/core";
 import { useDnDSensors } from "@/hooks/useDndSensors";
 import { closestCorners, DndContext } from "@dnd-kit/core";
+import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
+import { useCategoriesStore, useNotesStore, useSortStore } from "@/store";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import { SidebarGroupContent, SidebarMenu } from "@/components/ui";
 import Note from "./Note";
 
 export default function NotesList() {
@@ -28,17 +29,30 @@ export default function NotesList() {
     if (activeCategory) fetchNotes(activeCategory);
   }, [activeCategory]);
 
-  const getNotePosition = (id: string) =>
-    notes.findIndex((note) => note.id === id);
+  /**
+   * Returns the index of a note in the notes array based on its ID.
+   *
+   * @param id - The unique ID of the note
+   * @returns The index of the note in the notes array, or -1 if not found
+   */
+  const getNotePosition = (id: string) => {
+    return notes.findIndex((note) => note.id === id);
+  };
 
-  const handleDragEnd = (event: any) => {
+  /**
+   * Handles the end of a drag event.
+   * Reorders the notes array based on the new positions of the dragged items.
+   *
+   * @param event - The drag end event provided by @dnd-kit/core
+   */
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
     const reordered = arrayMove(
       notes,
-      getNotePosition(active.id),
-      getNotePosition(over.id)
+      getNotePosition(String(active.id)),
+      getNotePosition(String(over.id))
     );
     setNotes(reordered);
   };
@@ -60,11 +74,15 @@ export default function NotesList() {
   const NoteListContent = (
     <SidebarGroupContent className="column overflow-hidden h-full">
       <SidebarMenu>
-        {sortedNotes.length === 0
-          ? "No notes in this category"
-          : sortedNotes.map((note) => (
-              <Note key={note.id} id={note.id} title={note.title} />
-            ))}
+        {sortedNotes.length === 0 ? (
+          <span className="text-center mt-5 text-muted-foreground">
+            No notes in this category.
+          </span>
+        ) : (
+          sortedNotes.map((note) => (
+            <Note key={note.id} id={note.id} title={note.title} />
+          ))
+        )}
       </SidebarMenu>
     </SidebarGroupContent>
   );
