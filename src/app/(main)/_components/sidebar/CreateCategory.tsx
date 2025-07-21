@@ -1,42 +1,80 @@
+import { useState, useTransition } from "react";
+
+import { Plus } from "lucide-react";
+
+import { useUserStore } from "@/store";
+import { useCategoriesStore } from "@/store";
+import Spinner from "@/components/icons/Spinner";
+import { addCategorySchema } from "@/lib/schema";
+import { createCategory } from "@/lib/actions/category";
+import FlashMessage from "@/components/shared/FlashMessage";
 import {
   Button,
-  Input,
+  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Dialog,
   DialogTrigger,
   DropdownMenuLabel,
+  Input,
 } from "@/components/ui";
-import { Plus } from "lucide-react";
-import { useState, useTransition } from "react";
-import { createCategory } from "@/lib/actions/category";
-import { useUserStore } from "@/store";
-import Spinner from "@/components/icons/Spinner";
-import { useCategoriesStore } from "@/store";
+interface FeedBack {
+  type: "error" | "success";
+  message: string;
+}
 
 export default function CreateCategory() {
-  const [category, setCategory] = useState("");
-  const [isPending, startTransition] = useTransition();
   const userId = useUserStore((state) => state.user?.id);
+  const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
+
+  const [category, setCategory] = useState("");
+  const [feedback, setFeedback] = useState<FeedBack | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
-    const category = formData.get("category") as string;
+    const categoryEntry = formData.get("category");
+    const category = typeof categoryEntry === "string" ? categoryEntry : "";
+
+    const parsed = addCategorySchema.safeParse({ category });
+    if (!parsed.success) {
+      setFeedback({ type: "error", message: parsed.error.issues[0].message });
+      return;
+    }
+
+    setFeedback(null);
 
     startTransition(async () => {
-      if (userId) {
-        try {
-          await createCategory(category, userId);
-          await useCategoriesStore.getState().fetchCategories(userId);
-          setCategory("");
-        } catch (err) {
-          console.log("Failed to create category:", err);
-        }
+      if (!userId) return;
+
+      const result = await createCategory(category, userId);
+      if (!result) return;
+
+      const { status, type } = result;
+
+      if (status === "error" && type === "CATEGORY_DUPLICATE") {
+        setFeedback({
+          type: "error",
+          message: "A category with this name already exists.",
+        });
+      }
+
+      if (status === "success" && type === "CATEGORY_CREATED") {
+        await fetchCategories(userId);
+        setCategory("");
+        setFeedback({
+          type: "success",
+          message: "Category created successfully!",
+        });
       }
     });
+  };
+
+  const handleCancel = () => {
+    setCategory("");
+    setFeedback(null);
   };
 
   return (
@@ -58,21 +96,26 @@ export default function CreateCategory() {
           </DialogDescription>
         </DialogHeader>
         <form action={handleSubmit} className="space-y-3">
-          <Input
-            id="category"
-            name="category"
-            type="text"
-            placeholder="category..."
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
+          {feedback && (
+            <FlashMessage type={feedback.type} message={feedback.message} />
+          )}
+          <div>
+            <Input
+              id="category"
+              name="category"
+              type="text"
+              placeholder="category..."
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" onClick={handleCancel}>
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !category}>
               {isPending ? (
                 <>
                   <Spinner />

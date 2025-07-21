@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useCategoriesStore, useUserStore } from "@/store";
+import { formatString } from "@/lib/utils";
 import {
   Button,
   DropdownMenu,
@@ -77,7 +78,7 @@ export function Categories() {
           >
             {categories.map((category) => (
               <DropdownMenuRadioItem key={category.id} value={category.name}>
-                {category.name}
+                {formatString(category.name)}
               </DropdownMenuRadioItem>
             ))}
           </DropdownMenuRadioGroup>
