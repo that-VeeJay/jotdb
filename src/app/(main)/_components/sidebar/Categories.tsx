@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
 import { useCategoriesStore, useUserStore } from "@/store";
 import {
   Button,
@@ -13,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
-import { ClientRequest } from "http";
+import CreateCategory from "./CreateCategory";
 
 export function Categories() {
   // Get authenticated user and id
@@ -85,12 +84,7 @@ export function Categories() {
         )}
 
         <DropdownMenuSeparator />
-        <Button className="w-full" variant="ghost">
-          <DropdownMenuLabel className="flex items-center gap-1">
-            <span>Add new category</span>
-            <Plus />
-          </DropdownMenuLabel>
-        </Button>
+        <CreateCategory />
       </DropdownMenuContent>
     </DropdownMenu>
   );
