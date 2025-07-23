@@ -22,5 +22,5 @@ export interface Note {
 export interface Category {
   id: string;
   name: string;
-  userId: string;
+  userId?: string;
 }

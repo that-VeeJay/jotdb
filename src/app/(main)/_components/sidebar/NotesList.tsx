@@ -26,7 +26,7 @@ export default function NotesList() {
   const activeCategory = useCategoriesStore((state) => state.activeCategory);
 
   useEffect(() => {
-    if (activeCategory) fetchNotes(activeCategory);
+    if (activeCategory) fetchNotes(activeCategory.id);
   }, [activeCategory]);
 
   /**

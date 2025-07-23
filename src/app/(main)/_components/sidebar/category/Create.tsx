@@ -1,7 +1,5 @@
 import { useState, useTransition } from "react";
-
 import { Plus } from "lucide-react";
-
 import { useUserStore } from "@/store";
 import { useCategoriesStore } from "@/store";
 import Spinner from "@/components/icons/Spinner";
@@ -21,12 +19,13 @@ import {
   DropdownMenuLabel,
   Input,
 } from "@/components/ui";
+
 interface FeedBack {
   type: "error" | "success";
   message: string;
 }
 
-export default function CreateCategory() {
+export default function Create() {
   const userId = useUserStore((state) => state.user?.id);
   const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
 
@@ -77,12 +76,49 @@ export default function CreateCategory() {
     setFeedback(null);
   };
 
+  function Form() {
+    return (
+      <form action={handleSubmit} className="space-y-3">
+        {feedback && (
+          <FlashMessage type={feedback.type} message={feedback.message} />
+        )}
+        <div>
+          <Input
+            id="category"
+            name="category"
+            type="text"
+            placeholder="category..."
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button type="submit" disabled={isPending || !category}>
+            {isPending ? (
+              <>
+                <Spinner />
+                <span>Please wait...</span>
+              </>
+            ) : (
+              "Create"
+            )}
+          </Button>
+        </DialogFooter>
+      </form>
+    );
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full" variant="ghost">
           <DropdownMenuLabel className="flex items-center gap-1">
-            <span>Create new category</span>
+            Create new category
             <Plus />
           </DropdownMenuLabel>
         </Button>
@@ -95,38 +131,7 @@ export default function CreateCategory() {
             can edit or delete it anytime.
           </DialogDescription>
         </DialogHeader>
-        <form action={handleSubmit} className="space-y-3">
-          {feedback && (
-            <FlashMessage type={feedback.type} message={feedback.message} />
-          )}
-          <div>
-            <Input
-              id="category"
-              name="category"
-              type="text"
-              placeholder="category..."
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit" disabled={isPending || !category}>
-              {isPending ? (
-                <>
-                  <Spinner />
-                  <span>Please wait...</span>
-                </>
-              ) : (
-                "Create"
-              )}
-            </Button>
-          </DialogFooter>
-        </form>
+        {Form()}
       </DialogContent>
     </Dialog>
   );

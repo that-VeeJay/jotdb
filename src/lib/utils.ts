@@ -16,7 +16,7 @@ export function getInitials(name: string | null): string {
     .toUpperCase();
 }
 
-export function formatString(text: string | null): string {
+export function formatString(text: string): string {
   if (!text || typeof text !== "string") return "";
 
   return text
