@@ -16,10 +16,10 @@ export function getInitials(name: string | null): string {
     .toUpperCase();
 }
 
-export function formatDisplayName(name: string | null): string {
-  if (!name || typeof name !== "string") return "";
+export function formatString(text: string): string {
+  if (!text || typeof text !== "string") return "";
 
-  return name
+  return text
     .trim()
     .toLowerCase()
     .split(/\s+/)

@@ -1,27 +1,17 @@
 import { auth } from "@/lib/auth";
 import { UserSession } from "@/lib/types";
-import { Home } from "lucide-react";
-import Header from "./Header";
-import Footer from "./Footer";
 import {
-  SidebarTrigger,
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui";
-
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-];
+import Header from "./Header";
+import Footer from "./Footer";
+import NotesList from "./NotesList";
+import { Selector } from "./category/Selector";
+import SortControls from "./SortControls";
 
 export async function AppSidebar() {
   const session = await auth();
@@ -31,23 +21,16 @@ export async function AppSidebar() {
     <>
       <Sidebar variant="floating">
         <Header user={user} />
+        <SidebarGroup>{user.id && <Selector userId={user.id} />}</SidebarGroup>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Notes</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
+            <div className="flex items-center justify-between">
+              <SidebarGroupLabel>Notes</SidebarGroupLabel>
+              <div className="flex items-center gap-1">
+                <SortControls />
+              </div>
+            </div>
+            <NotesList />
           </SidebarGroup>
         </SidebarContent>
         <Footer />

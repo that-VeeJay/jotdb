@@ -2,8 +2,17 @@ export { Button } from "./button";
 export { Input } from "./input";
 export { Label } from "./label";
 export { Separator } from "./separator";
+export { Badge } from "./badge";
+export { Toggle } from "./toggle";
 
 export { Avatar, AvatarImage, AvatarFallback } from "./avatar";
+
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+} from "./popover";
 
 export {
   Tooltip,
@@ -11,6 +20,19 @@ export {
   TooltipContent,
   TooltipProvider,
 } from "./tooltip";
+
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "./dialog";
 
 export {
   Card,

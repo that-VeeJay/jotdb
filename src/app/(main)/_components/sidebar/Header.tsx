@@ -1,6 +1,6 @@
 import { ChevronDown, Pen } from "lucide-react";
 import type { UserSession } from "@/lib/types";
-import { formatDisplayName, getInitials } from "@/lib/utils";
+import { formatString, getInitials } from "@/lib/utils";
 import SignoutButton from "@/app/(auth)/_components/SignoutButton";
 import {
   Button,
@@ -71,7 +71,7 @@ function Trigger({
   name: string | null;
   image: string | null;
 }) {
-  const displayName = formatDisplayName(name);
+  const displayName = formatString(name);
 
   return (
     <DropdownMenuTrigger asChild>
@@ -93,7 +93,7 @@ function Content({
   image: string | null;
   email: string | null;
 }) {
-  const displayName = formatDisplayName(name);
+  const displayName = formatString(name);
 
   return (
     <DropdownMenuContent className="p-3 w-[20rem]" alignOffset={8}>
@@ -107,7 +107,7 @@ function Content({
       <Separator className="my-5" />
       <div className="flex items-center gap-2">
         <Button size="sm" variant="outline" className="flex-1" disabled={true}>
-          Settings
+          Profile
         </Button>
         <SignoutButton />
       </div>
