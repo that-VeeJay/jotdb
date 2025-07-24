@@ -25,6 +25,6 @@ export interface Category {
   userId?: string;
 }
 export interface ActionResponse {
-  type: "error" | "success";
+  type?: "error" | "success";
   message: string;
 }

@@ -1,7 +1,6 @@
-import { useState } from "react";
-
 import { Settings2 } from "lucide-react";
 
+import { useIsEditing, useIsDeleting } from "@/store/categoryActions-store";
 import {
   Button,
   Dialog,
@@ -17,8 +16,8 @@ import SelectCategory from "./List";
 import DeleteCategory from "./Delete";
 
 export default function ActionsModal() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const isEditingCategory = useIsEditing();
+  const isDeletingCategory = useIsDeleting();
 
   return (
     <Dialog>
@@ -34,9 +33,9 @@ export default function ActionsModal() {
             Edit or delete an existing category.
           </DialogDescription>
         </DialogHeader>
-        {isEditing ? (
+        {isEditingCategory ? (
           <EditCategory />
-        ) : isDeleting ? (
+        ) : isDeletingCategory ? (
           <DeleteCategory />
         ) : (
           <SelectCategory />
