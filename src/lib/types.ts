@@ -24,3 +24,7 @@ export interface Category {
   name: string;
   userId?: string;
 }
+export interface ActionResponse {
+  type: "error" | "success";
+  message: string;
+}

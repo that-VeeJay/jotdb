@@ -10,7 +10,7 @@ import {
 import Header from "./Header";
 import Footer from "./Footer";
 import NotesList from "./NotesList";
-import { Selector } from "./category/Selector";
+import { CategoryDropdown } from "./category/CategoryDropdown";
 import SortControls from "./SortControls";
 
 export async function AppSidebar() {
@@ -21,7 +21,9 @@ export async function AppSidebar() {
     <>
       <Sidebar variant="floating">
         <Header user={user} />
-        <SidebarGroup>{user.id && <Selector userId={user.id} />}</SidebarGroup>
+        <SidebarGroup>
+          {user.id && <CategoryDropdown userId={user.id} />}
+        </SidebarGroup>
         <SidebarContent>
           <SidebarGroup>
             <div className="flex items-center justify-between">

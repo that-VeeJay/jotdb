@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+
+import { formatString } from "@/lib/utils";
 import { useCategoriesStore } from "@/store";
 import {
   Button,
@@ -10,21 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
-import List from "./List";
-import Create from "./Create";
-import { formatString } from "@/lib/utils";
 
-export function Selector({ userId }: { userId: string }) {
+import Selection from "./Selection";
+import CreateModal from "./CreateModal";
+import ActionsModal from "./ActionsModal";
+
+export function CategoryDropdown({ userId }: { userId: string }) {
   // Category global store
-  const { categories, fetchCategories } = useCategoriesStore((state) => ({
-    categories: state.categories,
-    fetchCategories: state.fetchCategories,
-  }));
-
-  const { activeCategory, setActiveCategory } = useCategoriesStore((state) => ({
-    activeCategory: state.activeCategory,
-    setActiveCategory: state.setActiveCategory,
-  }));
+  const categories = useCategoriesStore((state) => state.categories);
+  const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
+  const activeCategory = useCategoriesStore((state) => state.activeCategory);
+  const setActiveCategory = useCategoriesStore(
+    (state) => state.setActiveCategory
+  );
 
   // Fetch categories when the component is first rendered
   useEffect(() => {
@@ -49,11 +49,14 @@ export function Selector({ userId }: { userId: string }) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Select a category</DropdownMenuLabel>
+        <div className="flex items-center justify-between">
+          <DropdownMenuLabel>Select a category</DropdownMenuLabel>
+          <ActionsModal />
+        </div>
         <DropdownMenuSeparator />
-        <List />
+        <Selection />
         <DropdownMenuSeparator />
-        <Create />
+        <CreateModal />
       </DropdownMenuContent>
     </DropdownMenu>
   );
