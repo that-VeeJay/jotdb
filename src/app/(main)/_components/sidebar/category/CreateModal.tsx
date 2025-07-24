@@ -81,7 +81,10 @@ export default function CreateModal() {
     return (
       <form action={handleSubmit} className="space-y-3">
         {response && (
-          <FlashMessage type={response.type} message={response.message} />
+          <FlashMessage
+            type={response.type ?? "info"}
+            message={response.message}
+          />
         )}
         <div>
           <Input
