@@ -1,63 +1,39 @@
 "use server";
 
-import { db } from "../prisma";
+import z from "zod";
+import { requireUser } from "../data-access/user";
+import { createCategory } from "../data-access/category";
+import { newCategorySchema } from "../schema";
+import { revalidatePath } from "next/cache";
 
-export async function createCategory(categoryName: string, userId: string) {
-  if (!categoryName || !userId) return;
-
-  const normalized = categoryName.trim().toLowerCase();
-
-  const existing = await db.category.findFirst({
-    where: {
-      userId,
-      name: {
-        equals: normalized,
-        mode: "insensitive",
-      },
-    },
-  });
-
-  if (existing) return { status: "error", type: "CATEGORY_DUPLICATE" };
-
-  await db.category.create({
-    data: { name: categoryName, userId: userId },
-  });
-
-  return { status: "success", type: "CATEGORY_CREATED" };
-}
-
-export async function deleteCategory(categoryName: string, userId: string) {
-  if (!categoryName) return;
-
+export async function createCategoryAction(
+  _prevState: any,
+  formData: FormData
+) {
   try {
-    const unsorted = await db.category.findFirst({
-      where: {
-        name: "Unsorted",
-        userId: userId,
-      },
+    const userId = await requireUser();
+
+    const newCategory = formData.get("new-category") as string;
+
+    const parsed = newCategorySchema.safeParse({
+      category: newCategory.trim(),
     });
 
-    // Reassign notes to 'Unsorted' for this user
-    await db.note.updateMany({
-      where: {
-        category: { name: categoryName, userId: userId },
-      },
-      data: {
-        categoryId: unsorted?.id,
-      },
-    });
+    if (parsed.error) {
+      const { fieldErrors } = z.flattenError(parsed.error);
+      const zodErrorMessage = fieldErrors.category?.[0];
+      return { success: false, message: zodErrorMessage };
+    }
 
-    // Delete the target category
-    await db.category.deleteMany({
-      where: {
-        name: categoryName,
-        userId: userId,
-      },
-    });
-
-    return { status: "success", type: "CATEGORY_DELETED" };
+    await createCategory(parsed.data.category, userId);
+    revalidatePath("/");
+    return {
+      success: true,
+      message: "Category has been created successfully.",
+    };
   } catch (error) {
-    console.error("Failed to delete category:", error);
-    return { status: "error", type: "INTERNAL_ERROR" };
+    const message =
+      error instanceof Error ? error.message : "Something went wrong";
+    return { success: false, message: message };
   }
 }

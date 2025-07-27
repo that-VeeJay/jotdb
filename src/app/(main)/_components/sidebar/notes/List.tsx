@@ -39,6 +39,10 @@ export default function List({
     );
   };
 
+  const filteredNotes = notes.filter(
+    (note) => note.categoryId === activeCategory.id
+  );
+
   return (
     <DndContext
       onDragEnd={handleDragEnd}
@@ -48,11 +52,15 @@ export default function List({
       <SortableContext items={notes} strategy={verticalListSortingStrategy}>
         <SidebarGroupContent>
           <SidebarMenu>
-            {notes
-              .filter((note) => note.categoryId === activeCategory?.id)
-              .map((note) => (
+            {filteredNotes.length > 0 ? (
+              filteredNotes.map((note) => (
                 <Note key={note.id} id={note.id} title={note.title} />
-              ))}
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground px-4 py-2 text-center">
+                No notes in this category yet.
+              </p>
+            )}
           </SidebarMenu>
         </SidebarGroupContent>
       </SortableContext>

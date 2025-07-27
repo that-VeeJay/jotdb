@@ -13,9 +13,9 @@ export async function getUserIdOrThrow() {
 export const requireUser = cache(async () => {
   const session = await auth();
   const user = session?.user;
-  if (!user) {
+  if (!user?.id) {
     // unsure
     redirect("/api/auth/login");
   }
-  return user;
+  return user.id;
 });

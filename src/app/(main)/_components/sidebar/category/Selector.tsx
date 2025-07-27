@@ -31,7 +31,7 @@ export default function Selector({ categories }: { categories: Category[] }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" className="w-full flex-1">
-          {activeCategory?.name || "Select Category"}
+          {formatString(activeCategory?.name ?? "") || "Select Category"}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

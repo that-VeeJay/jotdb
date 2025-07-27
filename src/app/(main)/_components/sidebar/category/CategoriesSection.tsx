@@ -5,6 +5,7 @@ import { getUserIdOrThrow } from "@/lib/data-access/user";
 import { getCategories } from "@/lib/data-access/category";
 
 import Selector from "./Selector";
+import Create from "./Create";
 
 export default async function CategoriesSection() {
   const userId = await getUserIdOrThrow();
@@ -16,9 +17,7 @@ export default async function CategoriesSection() {
         <Settings2 />
       </Button>
       <Selector categories={categories} />
-      <Button variant="secondary" size="icon">
-        <Plus />
-      </Button>
+      <Create />
     </div>
   );
 }
