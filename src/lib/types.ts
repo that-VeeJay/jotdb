@@ -8,7 +8,8 @@ export interface UserSession {
 export interface NotePreview {
   id: string;
   title: string;
-  createdAt: string;
+  createdAt: Date;
+  categoryId: string;
 }
 export interface Note {
   id: string;
