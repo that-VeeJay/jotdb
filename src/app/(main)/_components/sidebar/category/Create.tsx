@@ -1,11 +1,11 @@
-import { useState, useTransition } from "react";
+"use client";
+
+import { FlashMessage } from "@/components/shared";
+import { useActionState, useState } from "react";
+import { useResetOnClose } from "@/hooks/useResetOnClose";
 import { Plus } from "lucide-react";
-import { useUserStore } from "@/store";
-import { useCategoriesStore } from "@/store";
-import Spinner from "@/components/icons/Spinner";
-import { addCategorySchema } from "@/lib/schema";
-import { createCategory } from "@/lib/actions/category";
-import FlashMessage from "@/components/shared/FlashMessage";
+import { InputErrorMessage } from "@/components/shared";
+import { createCategoryAction } from "@/lib/actions/category";
 import {
   Button,
   Dialog,
@@ -16,122 +16,62 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DropdownMenuLabel,
   Input,
+  Label,
 } from "@/components/ui";
 
-interface FeedBack {
-  type: "error" | "success";
-  message: string;
-}
-
 export default function Create() {
-  const userId = useUserStore((state) => state.user?.id);
-  const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
+  const [open, setOpen] = useState(false);
+  const [state, formAction, isPending] = useActionState(
+    createCategoryAction,
+    undefined
+  );
 
-  const [category, setCategory] = useState("");
-  const [feedback, setFeedback] = useState<FeedBack | null>(null);
-  const [isPending, startTransition] = useTransition();
-
-  const handleSubmit = (formData: FormData) => {
-    const categoryEntry = formData.get("category");
-    const category = typeof categoryEntry === "string" ? categoryEntry : "";
-
-    const parsed = addCategorySchema.safeParse({ category });
-    if (!parsed.success) {
-      setFeedback({ type: "error", message: parsed.error.issues[0].message });
-      return;
-    }
-
-    setFeedback(null);
-
-    startTransition(async () => {
-      if (!userId) return;
-
-      const result = await createCategory(category, userId);
-      if (!result) return;
-
-      const { status, type } = result;
-
-      if (status === "error" && type === "CATEGORY_DUPLICATE") {
-        setFeedback({
-          type: "error",
-          message: "A category with this name already exists.",
-        });
-      }
-
-      if (status === "success" && type === "CATEGORY_CREATED") {
-        await fetchCategories(userId);
-        setCategory("");
-        setFeedback({
-          type: "success",
-          message: "Category created successfully!",
-        });
-      }
-    });
-  };
-
-  const handleCancel = () => {
-    setCategory("");
-    setFeedback(null);
-  };
-
-  function Form() {
-    return (
-      <form action={handleSubmit} className="space-y-3">
-        {feedback && (
-          <FlashMessage type={feedback.type} message={feedback.message} />
-        )}
-        <div>
-          <Input
-            id="category"
-            name="category"
-            type="text"
-            placeholder="category..."
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </DialogClose>
-          <Button type="submit" disabled={isPending || !category}>
-            {isPending ? (
-              <>
-                <Spinner />
-                <span>Please wait...</span>
-              </>
-            ) : (
-              "Create"
-            )}
-          </Button>
-        </DialogFooter>
-      </form>
-    );
-  }
+  useResetOnClose(open, formAction);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full" variant="ghost">
-          <DropdownMenuLabel className="flex items-center gap-1">
-            Create new category
-            <Plus />
-          </DropdownMenuLabel>
+        <Button variant="secondary" size="icon">
+          <Plus />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create new category</DialogTitle>
-          <DialogDescription>
-            Give your category a unique name to better organize your notes. You
-            can edit or delete it anytime.
-          </DialogDescription>
-        </DialogHeader>
-        {Form()}
+        <form action={formAction} className="space-y-5">
+          <DialogHeader>
+            <DialogTitle>Create new category</DialogTitle>
+            <DialogDescription>
+              Enter a name for your new category. You can use categories to
+              group related notes and stay organized.
+            </DialogDescription>
+          </DialogHeader>
+          {state?.success && state?.message && (
+            <FlashMessage message={state.message} type="success" />
+          )}
+          <div className="space-y-1">
+            <Label htmlFor="new-category">Category Name</Label>
+            <div>
+              <Input
+                id="new-category"
+                name="new-category"
+                placeholder="e.g. Work, School, Ideas"
+              />
+              {!state?.success && state?.message && (
+                <InputErrorMessage message={state.message} />
+              )}
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Adding..." : "Add Category"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

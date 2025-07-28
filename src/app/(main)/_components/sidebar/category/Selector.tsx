@@ -1,59 +1,52 @@
 "use client";
 
-import { useEffect } from "react";
-import { useCategoriesStore } from "@/store";
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui";
-import List from "./List";
-import Create from "./Create";
+import type { Category } from "@/lib/types";
+import { useCategoriesStore } from "@/store";
 import { formatString } from "@/lib/utils";
 
-export function Selector({ userId }: { userId: string }) {
-  // Category global store
-  const { categories, fetchCategories } = useCategoriesStore((state) => ({
-    categories: state.categories,
-    fetchCategories: state.fetchCategories,
-  }));
+export default function Selector({ categories }: { categories: Category[] }) {
+  const activeCategory = useCategoriesStore((state) => state.activeCategory);
+  const setActiveCategory = useCategoriesStore(
+    (state) => state.setActiveCategory
+  );
 
-  const { activeCategory, setActiveCategory } = useCategoriesStore((state) => ({
-    activeCategory: state.activeCategory,
-    setActiveCategory: state.setActiveCategory,
-  }));
+  const selectedCategoryId = activeCategory?.id ?? "";
 
-  // Fetch categories when the component is first rendered
-  useEffect(() => {
-    fetchCategories(userId);
-  }, []);
-
-  // Find the default "unsorted" category and set it as the activeCategory in the global state
-  useEffect(() => {
-    const defaultCategory = categories[0];
-    if (defaultCategory) {
-      setActiveCategory(defaultCategory);
-    }
-  }, [categories]);
+  const handleCategoryChange = (id: string) => {
+    const selected = categories.find((category) => category.id === id);
+    if (selected) setActiveCategory(selected);
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="flex items-center">
-          <span className="bg-green-500 h-[6px] w-[6px] rounded-full"></span>
-          <span>{formatString(activeCategory?.name ?? "")}</span>
+        <Button variant="secondary" className="w-full flex-1">
+          {formatString(activeCategory?.name ?? "") || "Select Category"}
         </Button>
       </DropdownMenuTrigger>
-
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Select a category</DropdownMenuLabel>
+        <DropdownMenuLabel>Selected a category</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <List />
-        <DropdownMenuSeparator />
-        <Create />
+        <DropdownMenuRadioGroup
+          value={selectedCategoryId}
+          onValueChange={handleCategoryChange}
+        >
+          {categories.map((category) => (
+            <DropdownMenuRadioItem key={category.id} value={category.id}>
+              {formatString(category.name)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -8,7 +8,8 @@ export interface UserSession {
 export interface NotePreview {
   id: string;
   title: string;
-  createdAt: string;
+  createdAt: Date;
+  categoryId: string;
 }
 export interface Note {
   id: string;
@@ -23,4 +24,8 @@ export interface Category {
   id: string;
   name: string;
   userId?: string;
+}
+export interface ActionResponse {
+  type?: "error" | "success";
+  message: string;
 }
