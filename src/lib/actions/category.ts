@@ -11,6 +11,8 @@ export async function createCategoryAction(
   formData: FormData
 ) {
   try {
+    if (formData?.has("reset")) return { success: false, message: "" };
+
     const userId = await requireUser();
 
     const newCategory = formData.get("new-category") as string;

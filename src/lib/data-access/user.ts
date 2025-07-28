@@ -9,7 +9,7 @@ export const requireUser = cache(async () => {
   const user = session?.user;
   if (!user?.id) {
     // unsure
-    redirect("/api/auth/login");
+    redirect("/sign-in");
   }
   return user.id;
 });

@@ -1,7 +1,8 @@
 "use client";
 
 import { FlashMessage } from "@/components/shared";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { useResetOnClose } from "@/hooks/useResetOnClose";
 import { Plus } from "lucide-react";
 import { InputErrorMessage } from "@/components/shared";
 import { createCategoryAction } from "@/lib/actions/category";
@@ -20,13 +21,16 @@ import {
 } from "@/components/ui";
 
 export default function Create() {
+  const [open, setOpen] = useState(false);
   const [state, formAction, isPending] = useActionState(
     createCategoryAction,
     undefined
   );
 
+  useResetOnClose(open, formAction);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" size="icon">
           <Plus />
